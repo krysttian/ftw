@@ -1,5 +1,11 @@
+![alt text][logo]
+---
 # Florida Ticket and Traffic Watch
-Get subscribe to variouse traffic and ticke related events, like drivers license suspensions, court date reminders, and case updates
+
+Have you ever received a traffic ticket and immediately forgotten about it, consequently leading to a bench warrant and maybe even an arrest? Subscribe to notifications of driver license status changes, court dates reminder and updates via email, SMS, and automated phone calls. 
+
+![alt text][sms-example]
+
 
 ## Counties and APis
 * Miami-Dade County - has API, requires notorized form submited
@@ -42,3 +48,5 @@ Get subscribe to variouse traffic and ticke related events, like drivers license
 * Allow multiple numbers with individual subscription types
 
 
+[sms-example]: https://fcc-landing.s3.amazonaws.com/images/sms-example.png "Example SMS Message"
+[logo]: https://fcc-landing.s3.amazonaws.com/images/recordchecker.png "FTW Logo"
