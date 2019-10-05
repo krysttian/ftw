@@ -1,5 +1,5 @@
 ![alt text][logo]
----
+
 # Florida Ticket and Traffic Watch
 
 Have you ever received a traffic ticket and immediately forgotten about it, consequently leading to a bench warrant and maybe even an arrest? Subscribe to notifications of driver license status changes, court dates reminder and updates via email, SMS, and automated phone calls. 
@@ -12,6 +12,7 @@ Have you ever received a traffic ticket and immediately forgotten about it, cons
 * Broward County - has API, requires notorized form
 * Orange Country - Unknown if API exists but signup reuqires form to be notorized and submited via email.
 
+---
 
 ### RoadMap
 
