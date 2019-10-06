@@ -1,0 +1,33 @@
+{
+  "name": "ftw",
+  "version": "1.0.0",
+  "description": "Serverless webpack example using Typescript",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "knex": "^0.19.4",
+    "objection": "^1.6.11",
+    "objection-guid": "^3.0.2",
+    "pg": "^7.12.1",
+    "pg-native": "^3.0.0",
+    "source-map-support": "^0.5.10"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.17",
+    "@types/node": "^10.12.18",
+    "copy-webpack-plugin": "^5.0.4",
+    "serverless-offline": "^6.0.0-alpha.41",
+    "serverless-webpack": "^5.2.0",
+    "ts-loader": "^5.3.3",
+    "twilio": "^3.35.0",
+    "typescript": "^3.2.4",
+    "usdl-regex": "^1.5.2",
+    "validator": "^11.1.0",
+    "webpack": "^4.41.0",
+    "xml2js": "^0.4.22"
+  },
+  "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
+  "license": "MIT"
+}

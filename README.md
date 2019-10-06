@@ -2,7 +2,9 @@
 
 # Florida Ticket and Traffic Watch
 
-Have you ever received a traffic ticket and immediately forgotten about it, consequently leading to a bench warrant and maybe even an arrest? Subscribe to notifications of driver license status changes, court dates reminder and updates via email, SMS, and automated phone calls. 
+Have you ever received a traffic ticket and immediately forgotten about it, consequently leading to a bench warrant and maybe even an arrest? Subscribe to notifications of driver license status changes, court dates reminder and updates via email, SMS, and automated phone calls.
+
+[Signup for early access](https://ftw-public.s3.us-east-2.amazonaws.com/index.html)
 
 ![alt text][sms-example]
 
@@ -51,3 +53,7 @@ Have you ever received a traffic ticket and immediately forgotten about it, cons
 
 [sms-example]: https://fcc-landing.s3.amazonaws.com/images/sms-example.png "Example SMS Message"
 [logo]: https://fcc-landing.s3.amazonaws.com/images/recordchecker.png "FTW Logo"
+
+## Local Development
+
+Make sure you have "Serverless Framework" installed, install all the packages, and configure a secrets.json file with the relevant values.

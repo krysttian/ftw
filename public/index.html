@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Florida Traffic and Ticket Watch - SMS/Phone Call Reminder</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/barebones.css">
+  <link rel="stylesheet" href="css/landingpage.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon-16.png">
+
+</head>
+
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="grid-container full">
+    <div>
+      <h1>Florida Drivers License Record Check</h1>
+      <p>
+          Have you ever received a traffic ticket and immediately forgotten about it, consequently leading to a bench warrant and maybe even an arrest?
+          Our team is working hard on creating a system that sends subscribers notifications on driver license status changes, and court dates via email, SMS, and automated phone calls.
+      </p>
+      <h4>This site and its content is not legal advice.</h4>
+    </div>
+    <div class="grid-container halves">
+      <div>
+        <h4>Sign up</h4>
+        <section>
+        <form id="submitEmailForm">
+              <div>
+                <label for="emailAddressClient">Email Address: <abbr title="required">*</abbr></label>
+                <input id="emailAddressInput" type="email" name="emailAddressClient" placeholder="Email Address" required>
+              </div>
+              <div>
+                <label for="countyClient">County <abbr title="required">*</abbr></label>
+                  <select id="countySelect" name="countyClient" multiple size="4">
+                      <option value="MIAMI-DADE">Miami-Dade</option>
+                      <option value="BROWARD">Broward</option>
+                      <option value="PALM-BEACH">Palm-Beach</option>
+                      <option value="ORANGE">Orange<option>
+                  </select>
+                </label>
+              </div>
+              <input id="submitSubscribeButton" type="submit" value="Submit">
+              <pre id="subscriptionRequestStatus">
+              </pre>
+          </form>
+        </section>
+          <span>
+        <p>
+           Planned features:
+        </p>
+        <div>
+          <ul class="planned-features-list">
+            <li>Monthly Drivers License checks*</li>
+            <li>Case court date reminders and updates</li>
+            <li>SMS, Phone, or Email updates</li>
+            <li>Miami-Dade, Broward, Palm Beach, And Orange County planned support</li>
+          </ul>
+          <p>*Dependant on availability</p>
+        </span>
+        </div>
+    </div>
+    <div>
+        <h4>Example</h4>
+        <div class="sms-example">
+            <img src="images/sms-example.png">
+            <p>Please note this feature is currently in development, and may change</p>
+        </div>
+      </div>
+      <!-- <button id="submitButton" type="submit">Subscribe</button> -->
+    </div>
+  </div>
+
+  <script src="js/landing.js"></script>
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+
+</html>

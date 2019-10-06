@@ -1,0 +1,46 @@
+service:
+  name: ftw
+
+custom:
+  secrets: ${file(secrets.json)}
+  webpack:
+    includeModules:
+      forceInclude:
+        - pg
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  memorySize: 256 # Overwrite the default memory size. Default is 1024
+  environment:
+    NODE_ENV: ${self:custom.secrets.NODE_ENV}
+    DATABASE_URL: ${self:custom.secrets.DATABASE_URL}
+    MIAMI_DADE_COUNTY_AUTH_KEY: ${self:custom.secrets.MIAMI_DADE_COUNTY_AUTH_KEY}
+    TWILIO_CLIENT_ID: ${self:custom.secrets.TWILIO_CLIENT_ID}
+    TWILIO_AUTH_KEY: ${self:custom.secrets.TWILIO_AUTH_KEY}
+
+  vpc:
+    securityGroupIds:
+      - ${self:custom.secrets.SECURITY_GROUP_ID}
+    subnetIds:
+      - ${self:custom.secrets.SUBNET1_ID}
+      - ${self:custom.secrets.SUBNET2_ID}
+      - ${self:custom.secrets.SUBNET3_ID}
+      - ${self:custom.secrets.SUBNET4_ID}
+
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+functions:
+  migrate:
+    handler: handler.migrate
+  subscribe:
+    handler: handler.launchSubscribe
+    events:
+      - http:
+          path: subscribe
+          method: post
+          cors: true

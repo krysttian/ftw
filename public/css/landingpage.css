@@ -1,0 +1,20 @@
+.planned-features-list{
+    display: grid;
+}
+
+#emailAddressInput,
+#countySelect {
+    min-width: 20em;
+}
+
+#countySelect {
+    min-height: 8em;
+}
+
+.message-color-success{
+    color: #007700;
+}
+
+.message-color-error{
+    color:red;
+}
