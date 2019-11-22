@@ -44,3 +44,24 @@ functions:
           path: subscribe
           method: post
           cors: true
+  subscription:
+    handler: handler.subscription
+    events:
+      - http:
+          path: subscription
+          method: post
+          cors: true
+  notifyAllUsers:
+    handler: handler.notifyAllUsers
+    events:
+      - http:
+          path: notifyAllUsers
+          method: post
+          cors: true
+  DLRMiamiDade:
+    handler: handler.DLRMiamiDade
+    events:
+      - http:
+          path: DLRMiamiDade
+          method: post
+          cors: true

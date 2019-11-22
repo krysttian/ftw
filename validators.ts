@@ -1,4 +1,4 @@
-import {isEmail} from 'validator'
+import {isEmail, isMobilePhone} from 'validator'
 
 
 export function validateEmail(emailAddress: string) {
@@ -17,22 +17,24 @@ export function validateEmail(emailAddress: string) {
   }
 
   
-//   function phoneNumberValidator(phoneNumber) {
-//     if (typeof phoneNumber === 'string') {
-//       const phoneNumberTrim = phoneNumber.trim();
-//       if (phoneNumberTrim.length === 0) {
-//         throw new Error('Phone Number is Length 0');
-//       }
-//       if (!validator.isMobilePhone(phoneNumberTrim)) {
-//         throw new Error('Phone Number is invalid');
-//       }
-//       return phoneNumberTrim;
-//     } else {
-//       throw new Error('Phone Number is not string type');
-//     }
-//   }
-  
-  
+  export function validatePhoneNumber(phoneNumber: string) {
+    if (typeof phoneNumber === 'string') {
+      if (phoneNumber.length !== 10) {
+        throw new Error('Phone Number is Not 10 digists long');
+      }
+
+      if ( phoneNumber.replace(/\D/g,'').length !== 10) {
+        throw new Error('Phone Number consisted not just of digits');
+      }
+      
+      if (!isMobilePhone(phoneNumber)) {
+        throw new Error('Phone Number is invalid');
+      }
+      return phoneNumber;
+    } else {
+      throw new Error('Phone Number is not string type');
+    }
+  }
   
 //   /**
 //    * Validates FL DL Number Submitted

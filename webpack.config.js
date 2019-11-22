@@ -7,7 +7,7 @@ module.exports = {
   entry: slsw.lib.entries,
   devtool: 'source-map',
   resolve: {
-    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx', '.d.ts'],
   },
   output: {
     libraryTarget: 'commonjs',

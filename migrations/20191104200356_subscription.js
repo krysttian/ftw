@@ -1,10 +1,12 @@
 'use strict';
 
 exports.up = async function(knex) {
-      await knex.schema.createTable('launch_subscriber', function (table) {
+      await knex.schema.createTable('subscription', function (table) {
         table.uuid('id').primary();
-        table.string('email_address').unique().comment('This is the email field');
-        table.enu('county', ['MIAMI-DADE', 'BROWARD', 'PALM-BEACH', 'ORANGE'], { useNative: true, enumName: 'county' }).notNullabl().comment('This is the list of supported counties');
+        table.string('email_address').notNullable().comment('This is the email field');
+        table.string('phone_number').notNullable().comment('This is the phone number field');
+        table.uuid('drivers_license_id').notNullable().unsigned();
+        table.foreign('drivers_license_id').references('drivers_license.id').onDelete('CASCADE');
         table.timestamp('created_on').defaultTo(knex.fn.now());
         table.timestamp('subscribed_on').defaultTo(knex.fn.now());
         table.timestamp('unsubscribed_on');
@@ -16,7 +18,7 @@ exports.up = async function(knex) {
   
   exports.down = async function(knex) {
     await knex.schema
-    .dropTable('launch_subscriber')
+    .dropTable('subscription')
 
     return Promise.resolve();
   };

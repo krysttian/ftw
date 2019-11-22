@@ -10,7 +10,7 @@ export class LaunchSubscriber extends guid(Model) {
 
     readonly id!: string;
     emailAddress: string;
-    county: string;
+    county: Counties;
     subscribedOn?: Date;
     unsubscribedOn?: Date;
     modifiedOn?: Date;
