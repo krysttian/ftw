@@ -59,6 +59,8 @@ import {
 
 
 export const migrate: APIGatewayProxyHandler = async (event, _context) => {
+  console.dir(knexConfig);
+  console.dir(knex);
   await knex.migrate.latest(knexConfig);
 
   return {
