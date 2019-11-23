@@ -16,13 +16,12 @@
 
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/barebones.css">
-  <link rel="stylesheet" href="css/landingpage.css">
+  <link rel="stylesheet" href="css/landing.css">
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -38,8 +37,8 @@
     <div>
       <h1>Florida Drivers License Record Check</h1>
       <p>
-          Have you ever received a traffic ticket and immediately forgotten about it, consequently leading to a bench warrant and maybe even an arrest?
-          Our team is working hard on creating a system that sends subscribers notifications on driver license status changes, and court dates via email, SMS, and automated phone calls.
+        Florida suspended 1.7 million drivers licenses in 2018. Subscribe to be alerted. via text message (SMS) to your phone<br>
+        Want to check your Drivers License status for free? Go here: <a href="https://services.flhsmv.gov/dlcheck/">https://services.flhsmv.gov/dlcheck/</a>
       </p>
       <h4>This site and its content is not legal advice.</h4>
     </div>
@@ -49,9 +48,25 @@
         <section>
         <form id="submitEmailForm">
               <div>
-                <label for="emailAddressClient">Email Address: <abbr title="required">*</abbr></label>
-                <input id="emailAddressInput" type="email" name="emailAddressClient" placeholder="Email Address" required>
+                <label for="phoneNumberClient">Phone Number:<abbr title="required">*</abbr>
+                  <span class="form-pattern-desc">Please input in the following format 2134567890</span>
+                </label>
+                <input id="phoneNumberInput" type="tel" name="phoneNumberClient" placeholder="2134567890" minlength="10" maxlength="10" required pattern="^\d{10}$">
               </div>
+              <div>
+                <label for="emailAddressClient">Email Address<abbr title="required">*</abbr></label>
+                <input id="emailAddressInput" type="email" name="emailAddressClient" placeholder="mail@example.com" required>
+              </div>
+              <div>
+                <label for="driversLicenseIdClient">Drivers License: <abbr title="required">*</abbr>
+                <span class="form-pattern-desc">Please input in the following format A111-111-11-111-1</span>
+                </label>
+                <input id="driversLicenseIdInput" type="text" name="driversLicenseIdClient" placeholder="A111-111-11-111-1"  minlength="17" maxlength="17" required pattern='[A-Z]{1}\d{3}[\-]\d{3}[\-]\d{2}[\-]\d{3}[\-]\d$' autocomplete="off">
+              </div>
+              <div>
+                  <label for="dobClient">Date of Birth: <abbr title="required">*</abbr></label>
+                  <input id="dobInput" type="date" name="dobClient" placeholder="1999-12-31" required pattern="^d{4}-\d{2}-\d{2}$/" autocomplete="off">
+                </div>
               <div>
                 <label for="countyClient">County <abbr title="required">*</abbr></label>
                   <select id="countySelect" name="countyClient" multiple size="4">
@@ -67,20 +82,6 @@
               </pre>
           </form>
         </section>
-          <span>
-        <p>
-           Planned features:
-        </p>
-        <div>
-          <ul class="planned-features-list">
-            <li>Monthly Drivers License checks*</li>
-            <li>Case court date reminders and updates</li>
-            <li>SMS, Phone, or Email updates</li>
-            <li>Miami-Dade, Broward, Palm Beach, And Orange County planned support</li>
-          </ul>
-          <p>*Dependant on availability</p>
-        </span>
-        </div>
     </div>
     <div>
         <h4>Example</h4>
@@ -89,7 +90,6 @@
             <p>Please note this feature is currently in development, and may change</p>
         </div>
       </div>
-      <!-- <button id="submitButton" type="submit">Subscribe</button> -->
     </div>
   </div>
 

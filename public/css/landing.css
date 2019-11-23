@@ -1,0 +1,41 @@
+#submitDLForm > input{
+    min-width: 20em;
+}
+
+.sms-example > img {
+    max-height:600px; /* you can use % */
+    width: auto;
+}
+
+.logo > img {
+    max-height:200px; /* you can use % */
+    width: auto;
+}
+
+#emailAddressInput,
+#countySelect {
+    min-width: 20em;
+}
+
+#countySelect {
+    min-height: 8em;
+}
+
+.message-color-success{
+    color: #007700;
+}
+
+.message-color-error{
+    color:red;
+}
+
+.form-pattern-desc{
+    font-size: 10px;
+    display: block;
+}
+body {
+    background-color: #ffffff;
+    background-image: url('../images/recordchecker.png');
+    background-repeat:no-repeat;
+    background-position: top left;
+}

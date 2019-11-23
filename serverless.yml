@@ -11,7 +11,7 @@ custom:
 provider:
   name: aws
   runtime: nodejs10.x
-  memorySize: 256 # Overwrite the default memory size. Default is 1024
+  memorySize: 128 # Overwrite the default memory size. Default is 1024
   environment:
     NODE_ENV: ${self:custom.secrets.NODE_ENV}
     DATABASE_URL: ${self:custom.secrets.DATABASE_URL}
@@ -51,17 +51,17 @@ functions:
           path: subscription
           method: post
           cors: true
-  notifyAllUsers:
-    handler: handler.notifyAllUsers
-    events:
-      - http:
-          path: notifyAllUsers
-          method: post
-          cors: true
-  DLRMiamiDade:
-    handler: handler.DLRMiamiDade
-    events:
-      - http:
-          path: DLRMiamiDade
-          method: post
-          cors: true
+  # notifyAllUsers:
+  #   handler: handler.notifyAllUsers
+  #   events:
+  #     - http:
+  #         path: notifyAllUsers
+  #         method: post
+  #         cors: true
+  # DLRMiamiDade:
+  #   handler: handler.DLRMiamiDade
+  #   events:
+  #     - http:
+  #         path: DLRMiamiDade
+  #         method: post
+  #         cors: true

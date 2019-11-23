@@ -1,16 +1,16 @@
-import {isEmail, isMobilePhone} from 'validator'
+import {isEmail, isMobilePhone} from 'validator';
+import { Counties } from './models/driversLicenseReport';
 
 
 export function validateEmail(emailAddress: string) {
     if (typeof emailAddress === 'string') {
-      const emailTrim = emailAddress.trim();
-      if (emailTrim.length === 0) {
+      if (emailAddress.length === 0) {
         throw new Error('Email Adress is Length 0');
       }
-      if (!isEmail(emailTrim)) {
+      if (!isEmail(emailAddress)) {
         throw new Error('Email Adress is invalid');
       }
-      return emailTrim;
+      return emailAddress;
     } else {
       throw new Error('Email Adress is not string type');
     }
@@ -24,7 +24,7 @@ export function validateEmail(emailAddress: string) {
       }
 
       if ( phoneNumber.replace(/\D/g,'').length !== 10) {
-        throw new Error('Phone Number consisted not just of digits');
+        throw new Error('Phone Number not just digits');
       }
       
       if (!isMobilePhone(phoneNumber)) {
@@ -36,37 +36,49 @@ export function validateEmail(emailAddress: string) {
     }
   }
   
-//   /**
-//    * Validates FL DL Number Submitted
-//    * @constructor
-//    * @param {string} dlNumber - Florida driverLicense
-//    * @param {date} dob - Date of Birth
-//    * @returns {Object}|null
-//    */
-//   function validateDLSubmission(dlNumber, dob) {
-//     const dobDate = new Date(dob);
-  
-//     //validate date
-//     if(dobDate instanceof Date === false && isNaN(dobDate.valueOf())) {
-//       throw Error('Invalid Date');
-//     }
-  
-//     // validate dl
-//     if(dlNumber.length >= 13 && typeof dlNumber === 'string') {
-//       const dlTrim = dlNumber.trim();
-//       const dlIsValidOrDesc = isValidOrReturnDescription('FL', dlTrim);
-//       if (dlIsValidOrDesc === true) {
-//         return {
-//           // we need to ensure the DL is formatted correctly.
-//               number : dlTrim,
-//               dob: dobDate,
-//               state: 'FL'
-//         }
-//       } else {
-//         throw new Error(`DL Number is invalid ${dlIsValidOrDesc}`)
-//       }
-//     } else {
-//       throw new Error(`DL Number is invalid, pleae include just the numbers and letters without spaces or hypens format as ${isValidOrReturnDescription('FL')}`)
-//     }
-  
-//   }
+  /**
+   * Validates FL DL Number Submitted
+   * @constructor
+   * @param {string} dlNumber - Florida driverLicense
+   * @param {date} dob - Date of Birth
+   * @returns {Object| Error}
+   */
+  export function validateDLSubmission(driversLicenseIdClient: string, dobClient: string, countyClient: string) {
+    if(typeof dobClient !== "string" || dobStringRegex(dobClient) !== true){
+      throw new Error('dob provided is not date in string format 1112-11-12');
+    }
+    if(countyClient in Counties === false){
+      throw new Error(`Country ${countyClient} not supported currently, currently supported counties are ${Object.keys(Counties)}`);
+    }
+
+    console.dir(countyClient);
+    // validate dl
+    if(driversLicenseIdClient.length !== 13 && typeof driversLicenseIdClient === 'string') {
+      if(dlRegex(driversLicenseIdClient)){
+        return {
+          // we need to ensure the DL is formatted correctly.
+              driversLicenseNumber : driversLicenseIdClient,
+              dob: dobClient,
+              county: countyClient
+        }
+      }
+      // TODO better error formatting
+        throw new Error(`DL Number is invalid format should be A111-111-11-111-1`);
+    } else {
+      throw new Error(`DL Number is invalid, Should be a total of 1Alpha+12Numeric, properly formatted with hypens, eg: A111-111-11-111-1}`);
+    }
+  }
+
+
+export function dlRegex(dlNumber: string) {
+  //https://ntsi.com/drivers-license-format/
+  // A111-111-11-111-1
+  const regex = /^[A-Z]{1}\d{3}-\d{3}-\d{2}-\d{3}-\d$/
+  return regex.test(dlNumber);
+}
+
+export function dobStringRegex(dobString: string) {
+  // 1112-11-12
+  const regex = /^\d{4}-\d{2}-\d{2}$/
+  return regex.test(dobString);
+}

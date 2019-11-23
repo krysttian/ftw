@@ -1,4 +1,5 @@
-const subscribeEndpoint = "https://qtjdxu6lsa.execute-api.us-east-1.amazonaws.com/dev/subscribe"
+// const subscribeEndpoint = "https://qtjdxu6lsa.execute-api.us-east-1.amazonaws.com/dev/subscribe"
+const subscribeEndpoint = "http://localhost:3000/subscription";
 const formLocator = '#submitEmailForm';
 const subscriptionStatusLocator = '#subscriptionRequestStatus';
 
@@ -9,18 +10,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
 async function submitEmail(event) {
     event.preventDefault();
     const formData = new FormData(document.querySelector(formLocator));
+    // TODO add shimming so we can make this alot easier.
     const emailAddressClient = formData.get('emailAddressClient');
     const countyClient = formData.get('countyClient')
-    if(emailAddressClient.length > 0 && typeof emailAddressClient === 'string') {
+    const dobClient = formData.get('dobClient');
+    const phoneNumberClient = formData.get('phoneNumberClient');
+    const driversLicenseIdClient = formData.get('driversLicenseIdClient');
+    if(emailAddressClient.length > 0 && typeof emailAddressClient === 'string' && 
+    typeof dobClient === 'string' && typeof phoneNumberClient === 'string' && typeof driversLicenseIdClient === 'string') {
         // handle exceptions
         const response = await fetch(subscribeEndpoint, {
             method: 'POST',
             mode: 'cors',
-            body: JSON.stringify({emailAddressClient, countyClient})
+            body: JSON.stringify({emailAddressClient, countyClient, dobClient, phoneNumberClient, driversLicenseIdClient})
         });
         handleSubscriptionStatus(response);
     } else {
-        return false;
+        const subscriptionStatusPre = document.querySelector(subscriptionStatusLocator);
+        subscriptionStatusPre.innerText = 'Form Submission is incomplete, if you belive this is an error please email support@floridatrafficwatch.com for support';
     }
 }
 
@@ -39,6 +46,6 @@ function handleSubscriptionStatus(response) {
         subscriptionStatusPre.innerText = subscriptionStatusMap[response.status];
     }
     if(response.status === 200) {
-        document.querySelector(formLocator).requestFullscreen();
+        document.querySelector(formLocator).reset();
     }
 }

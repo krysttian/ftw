@@ -10,13 +10,13 @@ export class DriversLicenseReport extends guid(Model) {
         return 'driversLicenseReport';
       }
 
-    // readonly id!: string;
-    // county: Counties;
-    // dob: string;
-    // driversLicenseId: string;
-    // createdOn: Date;
-    // modifiedOn?: Date;
-      // this relation mapping is likely pointless
+    readonly id!: string;
+    county: Counties;
+    dob: string;
+    driversLicenseId: string;
+    createdOn: Date;
+    modifiedOn?: Date;
+      //sthis relation mapping is likely pointless
     static get relationMappings() {
 
     return {

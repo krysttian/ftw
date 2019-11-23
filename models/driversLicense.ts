@@ -1,17 +1,14 @@
 const guid = require('objection-guid')();
 import { Model } from 'objection';
 
-// DL in florida beging with one letter followed by 12 digits the nubmer is split in 5 fields ****-***-**-***-*
+//FLDL Format: one letter followed by 12 digits the number is split into 5 fields by hypens ****-***-**-***-*
 export class DriversLicense extends guid(Model) {
+    static tableName = 'driversLicense';
 
-    static get tableName() {
-        return 'driversLicense';
-    }
     // readonly id!: string;
-    // county: Counties;
     // dob: string;
     // driversLicenseNumber: string;
-    // createdOn?: Date;
+    // county: string;
+    // created_on: Date;
     // modifiedOn?: Date;
-
 }
