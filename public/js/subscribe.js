@@ -39,11 +39,13 @@ async function submitEmail(event) {
 const subscriptionStatusMap = {
     200: 'You have been successfully subscribed',
     400: 'Email Address Is Missing',
+    409: 'Duplicate Subscription. Reach out to support@floridatrafficwatch.org if this is an error',
     422: 'Email Address is Malformed or already exists',
     500: 'Unknown Error'
 }
 
 function handleSubscriptionStatus(response) {
+    sendingGA('subscription form', document.querySelector(formLocator));
     const subscriptionStatusPre = document.querySelector(subscriptionStatusLocator);
     if (subscriptionStatusMap[response.status] === undefined) {
         subscriptionStatusPre.innerText = 'Uknown Error';
@@ -52,5 +54,18 @@ function handleSubscriptionStatus(response) {
     }
     if(response.status === 200) {
         document.querySelector(formLocator).reset();
+        
     }
 }
+
+
+function sendingGA(f, el) {
+    const formName = f;
+    const elName = el.name || el.id || el.type;
+    const category = 'interaction';
+    const action = 'form: ' + formName;
+    const label = elName + ':' + el.type;
+  
+    // use the defined helper function to trigger the configured event
+    ga('send', 'event', category, action, label);
+  }

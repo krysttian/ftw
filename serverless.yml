@@ -11,7 +11,8 @@ custom:
 provider:
   name: aws
   runtime: nodejs10.x
-  memorySize: 128 # Overwrite the default memory size. Default is 1024
+  memorySize: 256 # Overwrite the default memory size. Default is 1024
+  timeout: 6 # optional, in seconds, default is 6
   environment:
     NODE_ENV: ${self:custom.secrets.NODE_ENV}
     DATABASE_URL: ${self:custom.secrets.DATABASE_URL}
@@ -21,12 +22,13 @@ provider:
 
   vpc:
     securityGroupIds:
-      - ${self:custom.secrets.SECURITY_GROUP_ID}
+      - ${self:custom.secrets.SECURITY_GROUP1_ID}
+      # - ${self:custom.secrets.SECURITY_GROUP2_ID}
+
     subnetIds:
       - ${self:custom.secrets.SUBNET1_ID}
       - ${self:custom.secrets.SUBNET2_ID}
-      - ${self:custom.secrets.SUBNET3_ID}
-      - ${self:custom.secrets.SUBNET4_ID}
+      # - ${self:custom.secrets.SUBNET4_ID}
 
 
 # Add the serverless-webpack plugin
@@ -37,13 +39,13 @@ plugins:
 functions:
   migrate:
     handler: handler.migrate
-  subscribe:
-    handler: handler.launchSubscribe
-    events:
-      - http:
-          path: subscribe
-          method: post
-          cors: true
+  # subscribe:
+  #   handler: handler.launchSubscribe
+  #   events:
+  #     - http:
+  #         path: subscribe
+  #         method: post
+  #         cors: true
   subscription:
     handler: handler.subscription
     events:

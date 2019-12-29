@@ -40,3 +40,4 @@ function handleSubscriptionStatus(response) {
         subscriptionStatusPre.innerText = subscriptionStatusMap[response.status];
     }
 }
+

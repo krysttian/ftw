@@ -4,7 +4,7 @@
 
 Have you ever received a traffic ticket and immediately forgotten about it, consequently leading to a bench warrant and maybe even an arrest? Subscribe to notifications of driver license status changes, court dates reminder and updates via email, SMS, and automated phone calls.
 
-[Signup for early access](https://ftw-public.s3.us-east-2.amazonaws.com/index.html)
+[Signup for early access](https://floridatrafficwatch.org/index.html)
 
 ![alt text][sms-example]
 

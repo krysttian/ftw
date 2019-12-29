@@ -2,16 +2,6 @@
     min-width: 20em;
 }
 
-.sms-example > img {
-    max-height:600px; /* you can use % */
-    width: auto;
-}
-
-.logo > img {
-    max-height:100px; /* you can use % */
-    width: auto;
-}
-
 #emailAddressInput,
 #countySelect {
     min-width: 20em;
@@ -33,11 +23,9 @@
     font-size: 10px;
     display: block;
 }
-body {
-    /* background-color:rgb(245, 241, 221); */
-    /* background-image: url('../images/recordchecker.png');
-    background-repeat:no-repeat;
-    background-position: top left; */
+
+.label-body{
+    margin-bottom: 1em;
 }
 
 input:disabled {
@@ -46,5 +34,15 @@ input:disabled {
 
 pre {
     white-space: pre-wrap;
-    word-break: keep-all
+    word-break: keep-all;
+    font-size: 3em;
 }
+
+label {
+    font-size: 2em;
+}
+
+input, select {
+    font-size: 2em;
+}
+

@@ -20,8 +20,7 @@
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/barebones.css">
-  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/home.css">
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -30,70 +29,34 @@
 </head>
 
 <body>
-
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="grid-container full">
-    <div>
-      <h1>Florida Drivers License Record Check</h1>
-      <p>
-        Florida suspended 1.7 million drivers licenses in 2018. Subscribe to be alerted. via text message (SMS) to your phone<br>
-        Want to check your Drivers License status for free? Go here: <a href="https://services.flhsmv.gov/dlcheck/">https://services.flhsmv.gov/dlcheck/</a>
-      </p>
-      <h4>This site and its content is not legal advice.</h4>
-    </div>
-    <div class="grid-container halves">
+      <div class="grid-container">
       <div>
-        <h4>Sign up</h4>
-        <section>
-        <form id="submitEmailForm">
-              <div>
-                <label for="phoneNumberClient">Phone Number:<abbr title="required">*</abbr>
-                  <span class="form-pattern-desc">Please input in the following format 2134567890</span>
-                </label>
-                <input id="phoneNumberInput" type="tel" name="phoneNumberClient" placeholder="2134567890" minlength="10" maxlength="10" required pattern="^\d{10}$">
-              </div>
-              <div>
-                <label for="emailAddressClient">Email Address<abbr title="required">*</abbr></label>
-                <input id="emailAddressInput" type="email" name="emailAddressClient" placeholder="mail@example.com" required>
-              </div>
-              <div>
-                <label for="driversLicenseIdClient">Drivers License: <abbr title="required">*</abbr>
-                <span class="form-pattern-desc">Please input in the following format A111-111-11-111-1</span>
-                </label>
-                <input id="driversLicenseIdInput" type="text" name="driversLicenseIdClient" placeholder="A111-111-11-111-1"  minlength="17" maxlength="17" required pattern='[A-Z]{1}\d{3}[\-]\d{3}[\-]\d{2}[\-]\d{3}[\-]\d$' autocomplete="off">
-              </div>
-              <div>
-                  <label for="dobClient">Date of Birth: <abbr title="required">*</abbr></label>
-                  <input id="dobInput" type="date" name="dobClient" placeholder="1999-12-31" required pattern="^d{4}-\d{2}-\d{2}$/" autocomplete="off">
-                </div>
-              <div>
-                <label for="countyClient">County <abbr title="required">*</abbr></label>
-                  <select id="countySelect" name="countyClient" multiple size="4">
-                      <option value="MIAMI-DADE">Miami-Dade</option>
-                      <option value="BROWARD">Broward</option>
-                      <option value="PALM-BEACH">Palm-Beach</option>
-                      <option value="ORANGE">Orange<option>
-                  </select>
-                </label>
-              </div>
-              <input id="submitSubscribeButton" type="submit" value="Submit">
-              <pre id="subscriptionRequestStatus">
-              </pre>
-          </form>
-        </section>
-    </div>
-    <div>
-        <h4>Example</h4>
-        <div class="sms-example">
-            <img src="images/sms-example.png">
-            <p>Please note this feature is currently in development, and may change</p>
+        <nav class="navigation-menu">
+          <ol >
+            <li>
+              <a href="/index">Home</a>
+            </li>
+            <li>
+            <a href="/subscribe">Subscribe</a>
+          </li>
+          <li>
+            <a href="/tos">Terms Of Service</a>
+          </li>
+      </ol>
+      </nav>
+        <div class="blurb">
+            <h1>Driving Record Notifications To Your Phone.</h1>
+            <p>We'll check your drivers license monthly for free; no credit card required.* Currently availble for Miami Dade County</p>
+            <button class="buttonClass" id="submitButton" href="/signup.html">Subscribe</button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <script src="js/landing.js"></script>
+      <div class="county-image">
+                <img src="images/miamidade.jpg">
+        </div>
+        <!-- <button id="submitButton" type="submit">Subscribe</button> -->
+      </div>
   <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>

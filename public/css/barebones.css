@@ -76,7 +76,7 @@ html {
 	included for future and an example of defining a different base 'theme'
 */
 @media (prefers-color-scheme: dark) {
-	:html {
+	html {
 		/* dark theme: light background, dark text, blue accent */
 		--theme-hue: 0;					/* black */
 		--accent-hue: 194;			/* blue */
@@ -288,6 +288,7 @@ input[type="url"],
 input[type="password"],
 textarea,
 select {
+  color: var(--text-color-normal);
   height: 38px;
   padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
   background-color: var(--background-color);

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Florida Traffic Watch - Driving License Notifications To Your Phone</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/barebones.css">
+  <link rel="stylesheet" href="css/landing.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon-16.png">
+
+</head>
+
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="grid-container full">
+    <div>
+        <div class="logo">
+            <img src="images/recordchecker.png">
+        </div>
+      <h4>Driving Record Text/SMS notifications to your Phone and Email</h4>
+      <span>We'll check your drivers license monthly for free; no credit card required.</span>
+    </div>
+    <section>
+        <form id="submitEmailForm">
+            <div>
+                <label for="emailAddressClient">Email Address<abbr title="required">*</abbr></label>
+                <input id="emailAddressInput" type="email" name="emailAddressClient" placeholder="mail@example.com" required>
+              </div>
+              <div>
+                <label for="driversLicenseIdClient">Drivers License: <abbr title="required">*</abbr>
+                <span class="form-pattern-desc">Please input in the following format A111-111-11-111-1</span>
+                </label>
+                <input id="driversLicenseIdInput" type="text" name="driversLicenseIdClient" placeholder="A111-111-11-111-1"  minlength="17" size="17" required pattern='[A-Za-z]{1}\d{3}[\-]\d{3}[\-]\d{2}[\-]\d{3}[\-]\d$' autocomplete="off">
+              </div>
+              <div>
+                  <label for="phoneNumberClient">Phone Number:<abbr title="required">*</abbr>
+                    <span class="form-pattern-desc">Please input in the following format 2134567890</span>
+                  </label>
+                  <input id="phoneNumberInput" type="tel" name="phoneNumberClient" placeholder="2134567890" minlength="10" size="10" required pattern="^\d{10}$">
+                </div>
+              <div>
+                  <label for="dobClient">Date of Birth: <abbr title="required">*</abbr></label>
+                  <input id="dobInput" type="date" name="dobClient" placeholder="1999-12-31" required pattern="^d{4}-\d{2}-\d{2}$/" autocomplete="off">
+              </div>
+              <div>
+                <label for="countyClient">County <abbr title="required">*</abbr></label>
+                  <select id="countySelect" name="countyClient" multiple size="4">
+                      <option selected="selected" value="MIAMI-DADE">Miami-Dade</option>
+                      <option value="BROWARD">Broward</option>
+                      <option value="PALM-BEACH">Palm-Beach</option>
+                      <option value="ORANGE">Orange<option>
+                  </select>
+                </label>
+              </div>
+              <div>
+                  <label for="agreementClient">I agree to having messages sent via both email and SMS. I also understand that rates may apply, and agree to the <a href="tou.html">Terms of Use</a><abbr title="required">*</abbr></label>
+                  <input id="agreementInput" type="checkbox" name="agreementClient" required autocomplete="off">
+              </div>
+              <input id="submitSubscribeButton" type="submit" value="Subscribe">
+              <pre id="subscriptionRequestStatus">
+              </pre>
+          </form>
+        </section>
+      <div class="footer">
+      <h4>This site and its content is not legal advice.</h4>
+      <span>*This is subject to change without notice.</span>
+      <p> Want to check your Drivers License status yourself for free? Go here: <a href="https://services.flhsmv.gov/dlcheck/">https://services.flhsmv.gov/dlcheck/</a></p>
+      <span id="supportFooter">support@floridatrafficwatch.org || 2019-2020</span>
+  </div>
+  </div>
+
+  <script src="js/landing.js"></script>
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+
+</html>
