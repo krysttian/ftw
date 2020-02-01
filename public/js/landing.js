@@ -32,7 +32,7 @@ async function submitEmail(event) {
         .finally(() => document.querySelector(subscribeButton).disabled = false);
     } else {
         const subscriptionStatusPre = document.querySelector(subscriptionStatusLocator);
-        subscriptionStatusPre.innerText = 'Form Submission is incomplete, if you belive this is an error please email support@floridatrafficwatch.com for support';
+        subscriptionStatusPre.innerText = 'Form Submission is incomplete, if you belive this is an error please email support@drivefine.com for support';
     }
 }
 

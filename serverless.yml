@@ -53,6 +53,8 @@ functions:
           path: subscription
           method: post
           cors: true
+  rundlReports:
+    handler: handler.rundlReports
   # notifyAllUsers:
   #   handler: handler.notifyAllUsers
   #   events:

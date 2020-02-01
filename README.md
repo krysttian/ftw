@@ -1,18 +1,20 @@
 ![alt text][logo]
 
-# Florida Ticket and Traffic Watch
+# Drive Fine
 
 Have you ever received a traffic ticket and immediately forgotten about it, consequently leading to a bench warrant and maybe even an arrest? Subscribe to notifications of driver license status changes, court dates reminder and updates via email, SMS, and automated phone calls.
 
-[Signup for early access](https://floridatrafficwatch.org/index.html)
+[Signup for early access](https://drivefine.com)
 
 ![alt text][sms-example]
 
 
 ## Counties and APis
-* Miami-Dade County - has API, requires notorized form submited
-* Broward County - has API, requires notorized form
-* Orange Country - Unknown if API exists but signup reuqires form to be notorized and submited via email.
+* Miami-Dade County - has API for driver license
+* Broward County - has API but no endpoint for DL status web view at: https://www.browardclerk.org/Clerkwebsite/BCCOC2/Pubsearch/dl_stat_verif.aspx?DRVNUM=
+* Orange Country - API abilities not clear, no way to search by DL submitted request to support for additional info
+* flhsmv - The most authorative of the sources, no API, captcha on check: https://services.flhsmv.gov/DLCheck/
+* DAVID - includes Vehicle information but https://david.flhsmv.gov/
 
 ---
 
@@ -20,22 +22,22 @@ Have you ever received a traffic ticket and immediately forgotten about it, cons
 
 #### Security
 * Migrate to RDS Instace with Rest Encryption
-* Implement pgcrypto for PII
+* Implement pgcrypto for PII - Long Term
 
 #### Infra
-* confgiure VPC with static IP address
+* confgiure VPC with static IP address - done
 * Dockerized Puppeteer service for web only API's
+* ADD mutli-az dr for RDS
 
 #### Schema
 * Finalize schema for reports and subscribers
 
 #### Design
 * Complete Landing page
-* Complete wireframe for
-* Github readme to more match landing page
 
 
 #### Marketing
+* facebook (unable to get ad campagin approved)
 * develop deck for specific user grou
 * Get out the word campagin (public defender offices)
 * User testing

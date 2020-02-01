@@ -9,7 +9,7 @@ exports.up = async function(knex) {
         table.foreign('drivers_license_id').references('drivers_license.id').onDelete('CASCADE');
         table.timestamp('created_on').defaultTo(knex.fn.now());
         table.timestamp('subscribed_on').defaultTo(knex.fn.now());
-        table.timestamp('unsubscribed_on');
+        table.timestamp('unsubscribed_on').comment('either due to stop notification from user, OR  twilio webhook or manual intervention');
         table.timestamp('modified_on');
       });
 

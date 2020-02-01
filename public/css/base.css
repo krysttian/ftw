@@ -2,19 +2,10 @@ body{
     font: .9em/1.2 Arial, Helvetica, sans-serif;
 }
 
-ul{
+ul, ol{
     font-size: 2em;
 }
 
-.navigation-menu{
-    font-weight: 300;
-    font-size: 2em;
-}
-
-.navigation-menu > ul > li {
-    display: inline;
-    margin: auto 0.3em;
-}
 
 p{
     font-size: 2em;
@@ -22,7 +13,34 @@ p{
     margin: 1em auto;
 }
 
-#submitSubscribeButton, .btn {
+nav{
+    max-width: 1080px;
+    margin-top: 10px;
+    /* font-size: 0.8em; */
+}
+
+nav > ul{
+    list-style: none;
+}
+
+nav > ul > li > a{
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.logo{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.menu{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* #submitSubscribeButton, .btn {
     font-size: 2em;
     border-radius: 3em;
     height: 3em;
@@ -31,4 +49,4 @@ p{
 
 #submitSubscribeButton,.btn > a {
   text-decoration: none;
-}
+} */

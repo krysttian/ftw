@@ -18,7 +18,7 @@ export interface SubscriptionRequestType {
     countyClient: string;
 }
 
-export interface DriversLicenseType {
+export interface DriverLicenseType {
     id: string;
     dob: string;
     driversLicenseNumber: string;

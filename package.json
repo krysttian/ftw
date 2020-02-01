@@ -1,33 +1,34 @@
 {
   "name": "ftw",
   "version": "1.0.0",
-  "description": "Serverless webpack example using Typescript",
+  "description": "Drive Fine",
   "main": "handler.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "axios": "^0.19.0",
+    "chrome-aws-lambda": "^2.0.2",
     "knex": "^0.19.5",
     "objection": "^1.6.11",
     "objection-guid": "^3.0.2",
-    "pg": "^7.12.1",
+    "pg": "^7.17.0",
     "pg-native": "^3.0.0",
-    "source-map-support": "^0.5.10"
+    "source-map-support": "^0.5.16"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.17",
-    "@types/node": "^10.12.18",
-    "copy-webpack-plugin": "^5.0.4",
-    "serverless-offline": "^6.0.0-alpha.41",
-    "serverless-webpack": "^5.2.0",
+    "@types/aws-lambda": "^8.10.39",
+    "@types/node": "^10.17.13",
+    "copy-webpack-plugin": "^5.1.1",
+    "serverless-offline": "^6.0.0-alpha.56",
+    "serverless-webpawck": "^5.2.0",
     "ts-loader": "^5.3.3",
-    "twilio": "^3.35.0",
-    "typescript": "^3.2.4",
-    "usdl-regex": "^1.5.2",
+    "twilio": "^3.39.1",
+    "typescript": "^3.7.4",
+    "usdl-regex": "^1.5.3",
     "validator": "^11.1.0",
-    "webpack": "^4.41.0",
-    "xml2js": "^0.4.22"
+    "webpack": "^4.41.5",
+    "xml2js": "^0.4.23"
   },
   "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
   "license": "MIT"

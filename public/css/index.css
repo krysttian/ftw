@@ -1,0 +1,4 @@
+.submitButton{
+    color: var(--text-color-richer);
+    background-color: var(--accent-color-hover);
+}

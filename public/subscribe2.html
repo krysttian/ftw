@@ -6,7 +6,7 @@
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>Florida Traffic Watch - Driving License Notifications To Your Phone</title>
+  <title>Drive Fine - Driving License Notifications To Your Phone</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -44,7 +44,7 @@
     <div>
       <div>
           <span>
-            <h1>Florida Traffic Watch</h1>
+            <h1>Drive Fine</h1>
             <img src="./images/recordchecker.png">
           <h2>Driving Record Notifications To Your Phone.</h2>
           <p>
@@ -54,29 +54,31 @@
         </span>
         </div>
       </div>
-    <section>
+    <section class="form-section">
+      <div class="form-container">
         <form id="submitEmailForm">
-            <div>
+          <fieldset>
+            <div class='form-row'>
                 <label for="emailAddressClient">Email Address<abbr title="required">*</abbr></label>
                 <input id="emailAddressInput" type="email" name="emailAddressClient" placeholder="mail@example.com" required>
               </div>
-              <div>
+              <div class='form-row'>
                 <label for="driversLicenseIdClient">Drivers License<abbr title="required">*</abbr>
                 <span class="form-pattern-desc">Please input in the following format A111-111-11-111-1</span>
                 </label>
                 <input id="driversLicenseIdInput" type="text" name="driversLicenseIdClient" placeholder="A111-111-11-111-1"  minlength="17" size="17" required pattern='[A-Za-z]{1}\d{3}[\-]\d{3}[\-]\d{2}[\-]\d{3}[\-]\d$' autocomplete="off">
               </div>
-              <div>
+              <div class='form-row'>
                   <label for="phoneNumberClient">Phone Number<abbr title="required">*</abbr>
                     <span class="form-pattern-desc">Please input in the following format 2134567890</span>
                   </label>
                   <input id="phoneNumberInput" type="tel" name="phoneNumberClient" placeholder="2134567890" minlength="10" size="10" required pattern="^\d{10}$">
                 </div>
-              <div>
+                <div class='form-row'>
                   <label for="dobClient">Date of Birth<abbr title="required">*</abbr></label>
                   <input id="dobInput" type="date" name="dobClient" placeholder="1999-12-31" required pattern="^d{4}-\d{2}-\d{2}$/" autocomplete="off">
               </div>
-              <div>
+              <div class='form-row'>
                 <label for="countyClient">County<abbr title="required">*</abbr></label>
                   <select id="countySelect" name="countyClient" multiple size="4">
                       <option selected="selected" value="MIAMI-DADE">Miami-Dade</option>
@@ -86,7 +88,7 @@
                   </select>
                 </label>
               </div>
-              <div>
+              <div class='form-row'>
                   <label for="agreementClient">
                     <input id="agreementInput" type="checkbox" name="agreementClient" required autocomplete="off">
                     <span class="label-body">I agree to having messages sent via both email and SMS. I also understand that rates may apply, and agree to the <a href="tou.html">Terms of Use</a><abbr title="required">*</abbr></span>
@@ -115,7 +117,7 @@
   <div class="footer">
       <h4>This site and its content is not legal advice.</h4>
       <p> Want to check your Drivers License status for free? Go here: <a href="https://services.flhsmv.gov/dlcheck/">https://services.flhsmv.gov/dlcheck/</a></p>
-      <p>support@floridatrafficwatch.org || 2019-2020</p>
+      <p>support@drivefine.com || 2019-2020</p>
   </div>
   </div>
 

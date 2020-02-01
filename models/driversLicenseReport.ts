@@ -1,10 +1,10 @@
 const guid = require('objection-guid')();
 import { Model } from 'objection';
-// const DriversLicense = require('./driversLicense');
+// const DriverLicense = require('./driversLicense');
 
-import {DriversLicense} from './driversLicense';
+import DriverLicense from './driversLicense';
 // DL in florida beging with one letter followed by 12 digits the nubmer is split in 5 fields ****-***-**-***-*
-export class DriversLicenseReport extends guid(Model) {
+export class DriverLicenseReport extends guid(Model) {
 
     static get tableName() {
         return 'driversLicenseReport';
@@ -22,7 +22,7 @@ export class DriversLicenseReport extends guid(Model) {
     return {
       driversLicenseIdFk: {
         relation: Model.BelongsToOneRelation,
-        modelClass: DriversLicense,
+        modelClass: DriverLicense,
         join: {
           from: 'driversLicenseReport.driversLicenseId',
           to: 'driversLicense.id'

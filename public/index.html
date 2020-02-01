@@ -2,60 +2,101 @@
 <html lang="en">
 
 <head>
-
-  <!-- Basic Page Needs
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>Florida Traffic and Ticket Watch - SMS/Phone Call Reminder</title>
+  <title>Drive Fine - Driver License Suspension Notifications To Your Phone</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <!-- Mobile Specific Metas
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- FONT
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/barebones.css">
+
+  <link rel="stylesheet" href="css/base.css">
+    <!-- <link rel="stylesheet" href="css/home.css"> -->
+
+  <link rel="stylesheet" href="css/index.css">
+
+
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="images/favicon-16.png">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-157536876-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-157536876-1');
+</script>
 
 </head>
 
 <body>
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-      <div class="grid-container">
-      <div>
-        <nav class="navigation-menu">
-          <ol >
-            <li>
-              <a href="/index">Home</a>
-            </li>
-            <li>
-            <a href="/subscribe">Subscribe</a>
-          </li>
-          <li>
-            <a href="/tos">Terms Of Service</a>
-          </li>
-      </ol>
-      </nav>
-        <div class="blurb">
-            <h1>Driving Record Notifications To Your Phone.</h1>
-            <p>We'll check your drivers license monthly for free; no credit card required.* Currently availble for Miami Dade County</p>
-            <button class="buttonClass" id="submitButton" href="/signup.html">Subscribe</button>
+      <div class="grid-container full">
+        <header>
+          <div>
+              <nav class="navigation-menu">
+                <ul>
+                  <li class="logo">
+                    <a href="/index.html">Drive fine</a>
+                  </li>
+                  <li class="menu">
+                    <a href="/subscribe.html">Subscribe</a>
+                    <a href="/tos.html">Terms Of Service</a>
+                  </li>
+                </ul>
+            </nav>
+          </div>
+        </header>
+      
+      <section>
+          <span>
+          <h1>Driver License Suspension Notifications To Your Phone.</h1>
+          <p>
+            We'll check your driver license monthly for free; no credit card required.<br>
+            Miami-Dade, Broward, Palm Beach and Orange County
+          </p>
+         <a href="/subscribe.html"><button class="btn submitButton" link="/subscribe.html">Sign Up</button></a>
+        </span>
+        </section>
+      <section>
+        <h3>How it works</h3>
+        <p>
+          Subscribe to Drive Fine, using your driver license and phone number you want to recive notifications to.
+          We'll run an automated driver license check with a counties Clerk of Courts api to see if there is a change in your driver license status. These checks happen monthly for free accounts.
+          If there is a change to you driver license status like a suspension, we'll send you a SMS notification to the phone number used to subscribe with additional information.
+          </p>
+        <h3>The Impact</h3>
+        <p>
+          Almost 2 Million Floridians have their license suspended.<a target="_blank" href="https://finesandfeesjusticecenter.org/articles/driving-on-empty-florida-driver-license-suspension-fines-fees/">[1]</a>
+          In 2017, over 1.1 million suspension notices, making up nearly 72% of all suspension notices that year, were for unpaid fines and fees, not for dangerous driving or public safety concerns. <a href="https://finesandfeesjusticecenter.org/campaigns/florida-campaign-fines-fees/">[2]</a>
+        </p>
+        <h3>Our Mission</h3>
+        <p>Our mission is to help users stay informed of their driving record with proactive updates and reports. 
+        </p>
+        <h3>User data</h3>
+        <p>
+          We take our users data security very seriously and use encryption of data and communication. You can stop reciving SMS notifications by replying stop to your last notification.
+        </p>
+        <h3>Cost</h3>
+        <p>Currently this service is free to use with no credit card required and limited to one driver's license per person. If you would like to donate or need to subscribe to multiple driver licenses please email support@drivefine.com</p>
+    </section>
+    <section>
+      <a href="/subscribe.html"><button class="btn submitButton" link="/subscribe.html">Sign Up</button></a>
+    </section>
+        <div class="footer">
+          <h4>This site and its content is not legal advice.</h4>
+          <p> Want to check your driver License status yourself for free? Go to: <a target="_blank" href="https://services.flhsmv.gov/dlcheck/">https://services.flhsmv.gov/dlcheck/</a></p>
+          <p>This project is Open Source <a href="https://github.com/krysttian/ftw/">Source Code</a></p>
+          <p>support@drivefine.com | 2019-2020</p>
         </div>
-      </div>
-      <div class="county-image">
-                <img src="images/miamidade.jpg">
-        </div>
-        <!-- <button id="submitButton" type="submit">Subscribe</button> -->
       </div>
   <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->

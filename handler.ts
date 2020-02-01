@@ -9,7 +9,8 @@ import {
 } from 'objection';
 
 // // import {isValidOrReturnDescription} from 'usdl-regex';
-// import * as convertXmlToJSON from 'xml2js'
+import * as convertXmlToJSON from 'xml2js'
+import axios from 'axios';
 
 //Helpers
 import {
@@ -27,11 +28,11 @@ import {
 import {
   Subscription
 } from './models/subscription'
-import {
-  DriversLicense
-} from './models/driversLicense';
+import 
+  DriverLicense
+ from './models/driversLicense';
 // import {
-//   DriversLicenseReport
+//   DriverLicenseReport
 // } from './models/driversLicenseReport'
 // import {
 //   Notification
@@ -42,6 +43,7 @@ import {sendEnrollmentConfirmation} from './lib/functions/twilio';
 import {
   SubscriptionRequest
 } from './subscription';
+import { DriverLicenseReport } from './models/driversLicenseReport';
 // import {
 //   MiamiDadeDLReportCaseResponse
 // } from './dlReport'
@@ -66,70 +68,123 @@ export const migrate: APIGatewayProxyHandler = async (event, _context) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      message: 'Go Serverless Webpack (Typescript) v1.0! Your function executed successfully!',
+      message: 'Migration Ran',
       input: event,
     }, null, 2),
   };
 }
 
+/**
+ * @param {string} dlNumber - Florida driverLicense For Miami Dade Selections
+ * @returns {string} - success or error
+ */ 
+export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
 
-// export const launchSubscribe: APIGatewayProxyHandler = async (event, _context) => {
-//   const {
-//     emailAddressClient,
-//     countyClient
-//   } = JSON.parse(event.body);
-//   if (typeof emailAddressClient === 'undefined' || typeof countyClient === 'undefined' || typeof Counties[countyClient] !== "string") {
-//     return {
-//       headers: {
-//         'Access-Control-Allow-Origin': '*',
-//         'Access-Control-Allow-Credentials': true,
-//       },
-//       statusCode: 400,
-//       // move to http error handling
-//       body: 'BAD REQUEST, either email address is missing, or county submitted is not from allowed list'
-//     }
-//   }
-//   try {
-//     const emailAddress = validateEmail(emailAddressClient)
-//     const subscriber = await LaunchSubscriber.query().insert({
-//       emailAddress,
-//       county: countyClient
-//     })
+  // log starting
 
-//     return {
-//       statusCode: 200,
-//       headers: {
-//         'Access-Control-Allow-Origin': '*',
-//         'Access-Control-Allow-Credentials': true,
-//       },
-//       body: JSON.stringify({
-//         subscriber
-//       }),
-//     };
-//   } catch (error) {
-//     console.error(error);
-//     return {
-//       headers: {
-//         'Access-Control-Allow-Origin': '*',
-//         'Access-Control-Allow-Credentials': true,
-//       },
-//       statusCode: 422,
-//       body: JSON.stringify({
-//         description: error.message
-//       }),
-//     };
-//   }
-// };
+  // log number of subs
+
+  // log number of DL reports found vs making
+
+
+  const thirtyDaysAgo = new Date(new Date().setDate(new Date().getDate() - 30));
+
+  // get all valid Subscriptions with no notification in the last 30 days 
+  // what if no notification but drivers report is last 30? 
+  const dlIdsThatNeedReport = [];
+  const validSubscriptions = await Subscription.query().where('unsubscribedOn', null);
+  // extract just DL ids and transform to set for just unique values to reduce in unessecary addtional queries.
+  for (const sub of validSubscriptions) {
+    // most recent notification for that sub ID
+    const lastDlReport = await DriverLicenseReport.query().where('driversLicenseId', sub.driversLicenseId).orderBy('createdOn', 'desc').where('createdOn', '>=', thirtyDaysAgo).first();
+    if (!lastDlReport) {
+      dlIdsThatNeedReport.push(sub.driversLicenseId);
+    }
+  }
+
+  if (dlIdsThatNeedReport.length === 0) {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
+      body: 'no subscriptions require report'
+    };
+  }
+
+  console.dir(dlIdsThatNeedReport);
+  
+  const uniqueDlIds = [...new Set(dlIdsThatNeedReport)];
+
+  const driverLicenses = await DriverLicense.query().whereIn('id', uniqueDlIds);
+
+  const baseURL = 'https://www2.miami-dadeclerk.com/Developers/';
+  const miamiDadeApiAuthKey = process.env['MIAMI_DADE_COUNTY_AUTH_KEY'] || 'NOKEY';
+  const apiMap = {
+    dlNumberSearch: 'api/TrafficWeb?DL={DL}&AuthKey='
+  }
+
+    for (const dl of driverLicenses) {
+      try {
+
+      //  build url
+    const dlRequestUrl = baseURL.concat(apiMap.dlNumberSearch).replace('{DL}', dl.driversLicenseNumber).concat(miamiDadeApiAuthKey);
+    const dlRecord = await DriverLicense.query()
+      .where('driversLicenseNumber', dl.driversLicenseNumber).first();
+
+    // make request, XML only has information
+    const request = await axios.get(dlRequestUrl, {
+      headers: {
+        'Accept': 'application/xml',
+      }
+    });
+    const response = request.data;
+    const jsonResponse = await convertXmlToJSON.parseStringPromise(response);
+
+    //<StatusDesc>NO CASE FOUND FOR A111-111-10-011-1 DRIVER LICENSE NOT DATABASE</StatusDesc> not sure if this is good enough to ommit all with a similar statusDesc
+
+    console.dir(jsonResponse);
+    await DriverLicenseReport.query().insert({
+      driversLicenseId: dlRecord.id,
+      report: response,
+      reportJsonb: jsonResponse,
+      county: 'MIAMI-DADE'
+    })
+
+  } catch (error) {
+    // alert on these errors
+    console.error(error);
+    console.dir(dl);
+    return {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
+      statusCode: 422,
+      body: JSON.stringify({
+        description: error.message
+      }),
+    };
+  }
+}
+
+return {
+  statusCode: 200,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Credentials': true,
+  },
+  // include number and some subscription ids?
+  body: 'Reports run',
+};
+}
 
 // /**
-//  * @constructor
-//  * @param {string} dlNumber - Florida driverLicense
+//  * @param {string} dlNumber - Florida driverLicense For Miami Dade Selections
 //  * @returns {string} - success or error
-//  */
+//  */ 
 // export const DLRMiamiDade: APIGatewayProxyHandler = async (event, _context) => {
-//   // THIS SHOULD BE A PRIVATE METHOD
-//   // ONLY INVOKABLE INTERNALY
-
 //   const baseURL = 'https://www2.miami-dadeclerk.com/Developers/';
 //   const miamiDadeApiAuthKey = process.env['MIAMI_DADE_COUNTY_AUTH_KEY'] || 'NOKEY';
 //   const apiMap = {
@@ -140,21 +195,10 @@ export const migrate: APIGatewayProxyHandler = async (event, _context) => {
 //     driversLicenseNumberClient
 //   } = JSON.parse(event.body);
 
-//   if (typeof driversLicenseNumberClient === 'undefined') {
-//     return {
-//       headers: {
-//         'Access-Control-Allow-Origin': '*',
-//         'Access-Control-Allow-Credentials': true,
-//       },
-//       statusCode: 400,
-//       // move to http error handling
-//       body: 'BAD REQUEST'
-//     }
-//   }
 //   try {
 //     //  build url
 //     const dlRequestUrl = baseURL.concat(apiMap.dlNumberSearch).replace('{DL}', driversLicenseNumberClient).concat(miamiDadeApiAuthKey);
-//     const dlRecord = await DriversLicense.query()
+//     const dlRecord = await DriverLicense.query()
 //       .where('drivers_license_number', driversLicenseNumberClient).first();
 
 //     // make request, XML only has information
@@ -166,7 +210,7 @@ export const migrate: APIGatewayProxyHandler = async (event, _context) => {
 //     });
 //     const response = request.data;
 //     const jsonResponse = await convertXmlToJSON.parseStringPromise(response)
-//     await DriversLicenseReport.query().insert({
+//     await DriverLicenseReport.query().insert({
 //       driversLicenseId: dlRecord.id,
 //       report: response,
 //       reportJsonb: jsonResponse,
@@ -234,20 +278,20 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
     console.dir(`requestid ${_context.awsRequestId}, client validation ended`);
     // TODO upsert  (adjust for concurrency). INSPO https://gist.github.com/derhuerst/7b97221e9bc4e278d33576156e28e12d
     // TODO sanitaize return values from DB with try catch
-    const existingDriversLicense = await DriversLicense.query().where('driversLicenseNumber', driversLicenseNumber).first();
-    console.dir(existingDriversLicense);
+    const existingDriverLicense = await DriverLicense.query().where('driversLicenseNumber', driversLicenseNumber).first();
+    console.dir(existingDriverLicense);
     console.dir(`requestid ${_context.awsRequestId}`);
 
-    if (existingDriversLicense) {
+    if (existingDriverLicense) {
       const existingSubscription = await Subscription.query().where({
         emailAddress,
         phoneNumber,
-        driversLicenseId: existingDriversLicense.id
+        driversLicenseId: existingDriverLicense.id
       }).first();
 
       console.dir(existingSubscription);
 
-      if(existingDriversLicense.disabled || existingSubscription) {
+      if(existingDriverLicense.disabled || existingSubscription) {
         return {
           statusCode: 409,
           headers: {
@@ -255,7 +299,7 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
             'Access-Control-Allow-Credentials': true,
           },
           body: JSON.stringify({
-          message: 'This is a duplicate Subscription in our system. Please reach out to support@floridatrafficwatch.org if you belive this is an Error'
+          message: 'This is a duplicate Subscription in our system. Please reach out to support@drivefine.com if you belive this is an Error'
           }),
         };
       }
@@ -263,7 +307,7 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
         await Subscription.query().insert({
           emailAddress,
           phoneNumber,
-          driversLicenseId: existingDriversLicense.id,
+          driversLicenseId: existingDriverLicense.id,
           subscribedOn: new Date()
         });
   
@@ -282,20 +326,23 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
     }
 
     // DL isn't found, need to create before moving forward
-      const newDriversLicense = await DriversLicense.query().insert({
+    console.dir(`requestid ${_context.awsRequestId} dl not found`);
+      const newDriverLicense = await DriverLicense.query().insert({
         dob,
         driversLicenseNumber,
         county,
         disabled: false
       });
-
+      console.dir(`requestid ${_context.awsRequestId} ${newDriverLicense}`);
         // TODO validate DL here or exit?
         await Subscription.query().insert({
         emailAddress,
         phoneNumber,
-        driversLicenseId: newDriversLicense.id,
+        driversLicenseId: newDriverLicense.id,
         subscribedOn: new Date()
       });
+
+      console.dir(`requestid ${_context.awsRequestId} subscription added`);
 
       await sendEnrollmentConfirmation(phoneNumberClient, driversLicenseIdClient);
 
@@ -348,7 +395,7 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
 //         driversLicenseId
 //       } = sub
 //       // get latest report for that DL REPORT
-//       const dlReport = await DriversLicenseReport.query().where({
+//       const dlReport = await DriverLicenseReport.query().where({
 //         driversLicenseId
 //       }).first();
 
