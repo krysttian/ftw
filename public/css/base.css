@@ -13,14 +13,12 @@ p{
     margin: 1em auto;
 }
 
-nav{
-    max-width: 1080px;
-    margin-top: 10px;
-    /* font-size: 0.8em; */
-}
-
 nav > ul{
     list-style: none;
+}
+
+.navigation-root > li{
+    margin-top: 20px;
 }
 
 nav > ul > li > a{

@@ -1,4 +1,17 @@
 .submitButton{
-    color: var(--text-color-richer);
+    text-transform: uppercase;
+    
+    font-size: 2.0rem;
+    font-weight: 300;
+    letter-spacing: .025em;
+    background-color: var(--accent-color);
+    color: var(--button-primary-color);
+}
+
+
+.submitButton:hover{
+
+    /* font-size: 4rem; */
     background-color: var(--accent-color-hover);
+    color: var(--button-primary-color);
 }

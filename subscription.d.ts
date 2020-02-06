@@ -26,5 +26,4 @@ export interface SubscriptionRequest {
     phoneNumberClient: string;
     driversLicenseIdClient: string;
     countyClient: string;
-    dobClient?: string;
 }

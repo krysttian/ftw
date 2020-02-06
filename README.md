@@ -1,7 +1,6 @@
 ![alt text][logo]
 
 # Drive Fine
-
 Have you ever received a traffic ticket and immediately forgotten about it, consequently leading to a bench warrant and maybe even an arrest? Subscribe to notifications of driver license status changes, court dates reminder and updates via email, SMS, and automated phone calls.
 
 [Signup for early access](https://drivefine.com)
@@ -21,24 +20,25 @@ Have you ever received a traffic ticket and immediately forgotten about it, cons
 ### RoadMap
 
 #### Security
-* Migrate to RDS Instace with Rest Encryption
 * Implement pgcrypto for PII - Long Term
 
 #### Infra
 * confgiure VPC with static IP address - done
-* Dockerized Puppeteer service for web only API's
 * ADD mutli-az dr for RDS
+* add RDS Proxy
 
 #### Schema
 * Finalize schema for reports and subscribers
 
 #### Design
 * Complete Landing page
-
+* [multi-lingual](https://support.google.com/webmasters/answer/189077)
+* add progress bar
+* [best proactices](https://blog.hubspot.com/marketing/form-design)
 
 #### Marketing
-* facebook (unable to get ad campagin approved)
-* develop deck for specific user grou
+* facebook
+* develop deck for specific user group
 * Get out the word campagin (public defender offices)
 * User testing
 * Feedback
@@ -52,10 +52,24 @@ Have you ever received a traffic ticket and immediately forgotten about it, cons
 * Enforce Rate limit
 * Allow multiple numbers with individual subscription types
 
-
+<!-- 
 [sms-example]: https://fcc-landing.s3.amazonaws.com/images/sms-example.png "Example SMS Message"
-[logo]: https://fcc-landing.s3.amazonaws.com/images/recordchecker.png "FTW Logo"
+[logo]: https://fcc-landing.s3.amazonaws.com/images/recordchecker.png "FTW Logo" -->
 
 ## Local Development
 
 Make sure you have "Serverless Framework" installed, install all the packages, and configure a secrets.json file with the relevant values.
+
+## Improve Security
+aws account has 2FA
+Database exists in VPC within Private subnet
+Databse enforces SSL via rds.force_ssl paramater
+t3 instance chosen to ensure data encryption at rest
+TLS for front end
+
+TODO
+application user created with  SCRAM-SHA-256 Encryption
+https://aws.amazon.com/blogs/database/managing-postgresql-users-and-roles/
+https://www.postgresql.org/docs/current/runtime-config-connection.html#GUC-PASSWORD-ENCRYPTION
+Move to service level accounts
+

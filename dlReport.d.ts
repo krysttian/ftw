@@ -1,7 +1,6 @@
 export interface MiamiDadeDLReportCaseResponse {
     driverLicenseNum: string;
     defendantName: string;
-    dob: string;
     caseNumber: string;
     actionCode: string;
     actionDescription: string;

@@ -12,7 +12,6 @@ export class DriverLicenseReport extends guid(Model) {
 
     readonly id!: string;
     county: Counties;
-    dob: string;
     driversLicenseId: string;
     createdOn: Date;
     modifiedOn?: Date;

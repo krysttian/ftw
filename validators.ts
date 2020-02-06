@@ -40,25 +40,18 @@ export function validateEmail(emailAddress: string) {
    * Validates FL DL Number Submitted
    * @constructor
    * @param {string} dlNumber - Florida driverLicense
-   * @param {date} dob - Date of Birth
    * @returns {Object| Error}
    */
-  export function validateDLSubmission(driversLicenseIdClient: string, dobClient: string, countyClient: string) {
-    if(typeof dobClient !== "string" || dobStringRegex(dobClient) !== true){
-      throw new Error('dob provided is not date in string format 1112-11-12');
-    }
+  export function validateDLSubmission(driversLicenseIdClient: string, countyClient: string) {
     if(countyClient in Counties === false){
       throw new Error(`Country ${countyClient} not supported currently, currently supported counties are ${Object.keys(Counties)}`);
     }
-
-    console.dir(countyClient);
     // validate dl
     if(driversLicenseIdClient.length !== 13 && typeof driversLicenseIdClient === 'string') {
       if(dlRegex(driversLicenseIdClient)){
         return {
           // we need to ensure the DL is formatted correctly.
               driversLicenseNumber : driversLicenseIdClient,
-              dob: dobClient,
               county: countyClient
         }
       }
@@ -69,16 +62,10 @@ export function validateEmail(emailAddress: string) {
     }
   }
 
-
+// TODO parse dl for driver information
 export function dlRegex(dlNumber: string) {
   //https://ntsi.com/drivers-license-format/
   // A111-111-11-111-1
   const regex = /^[A-Z]{1}\d{3}-\d{3}-\d{2}-\d{3}-\d$/
   return regex.test(dlNumber);
-}
-
-export function dobStringRegex(dobString: string) {
-  // 1112-11-12
-  const regex = /^\d{4}-\d{2}-\d{2}$/
-  return regex.test(dobString);
 }

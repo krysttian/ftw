@@ -1,5 +1,5 @@
 service:
-  name: ftw
+  name: drivefine
 
 custom:
   secrets: ${file(secrets.json)}
@@ -39,13 +39,6 @@ plugins:
 functions:
   migrate:
     handler: handler.migrate
-  # subscribe:
-  #   handler: handler.launchSubscribe
-  #   events:
-  #     - http:
-  #         path: subscribe
-  #         method: post
-  #         cors: true
   subscription:
     handler: handler.subscription
     events:
@@ -55,17 +48,3 @@ functions:
           cors: true
   rundlReports:
     handler: handler.rundlReports
-  # notifyAllUsers:
-  #   handler: handler.notifyAllUsers
-  #   events:
-  #     - http:
-  #         path: notifyAllUsers
-  #         method: post
-  #         cors: true
-  # DLRMiamiDade:
-  #   handler: handler.DLRMiamiDade
-  #   events:
-  #     - http:
-  #         path: DLRMiamiDade
-  #         method: post
-  #         cors: true

@@ -31,9 +31,6 @@ window.addEventListener("DOMContentLoaded",function(){
         }
         fetch('/api/submit', submissionBody);
 
-        const subscriptionType = subscriptionSelectionSelector().forEach((e) => {
-            console.dir(e);
-        });
         event.preventDefault();
     }
 

@@ -6,7 +6,6 @@ export default class DriverLicense extends guid(Model) {
     static tableName = 'driversLicense';
 
     readonly id!: string;
-    dob: string;
     driversLicenseNumber: string;
     county: string;
     created_on: Date;

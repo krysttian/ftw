@@ -6,7 +6,7 @@
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>Drive Fine - Driving License Notifications To Your Phone</title>
+  <title>Driver Fine - Driving License Notifications To Your Phone</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -14,89 +14,113 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- FONT
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/barebones.css">
-  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/subscribe.css">
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="icon" type="image/png" href="images/favicon-16.png">
+  <link rel="icon" type="image/png" href="images/favicon.ico">
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157536876-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-157536876-1');
+  </script>
 
 </head>
 
-<body>
-
+<body class="grid-container full">
+  <header>
+    <div>
+      <nav class="navigation-menu">
+        <ul>
+          <li class="logo">
+            <a href="/index.html">Drive Fine</a>
+          </li>
+          <li class="menu">
+            <a href="/subscribe.html">Subscribe</a>
+            <a href="/tos.html">Terms Of Service</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="grid-container full">
+  <section>
     <div>
-        <div class="logo">
-            <img src="images/recordchecker.png">
+      <span>
+        <h1>Driving Record Notifications To Your Phone.</h2>
+          <p>
+            We'll check your driver license monthly for free; no credit card required.<br>
+            Miami-Dade, Broward, Palm Beach and Orange County
+          </p>
+      </span>
+  </section>
+  <section class="form-section">
+    <form id="submitEmailForm">
+      <div class="label-row">
+        <label for="emailAddressClient">Email Address<abbr title="required"></abbr></label>
+        <span class="form-pattern-desc">For service updates</span>
+        <span class="form-pattern-desc"></span>
+      </div>
+      <input id="emailAddressInput" type="email" name="emailAddressClient" placeholder="mail@example.com" required
+        autocomplete="email">
+      <div class="label-row">
+        <label for="phoneNumberClient">Phone Number<abbr title="required"></abbr></label>
+        <span class="form-pattern-desc">SMS messages will be sent to this number</span>
+      </div>
+      <input id="phoneNumberInput" type="tel" name="phoneNumberClient" placeholder="2134567890" minlength="10" size="10"
+        required pattern="^\d{10}$" autocomplete="tel">
+      <div class="label-row">
+        <div class="label-row">
+          <label for="countyClient">County<abbr title="required"></abbr></label>
+          <span class="form-pattern-desc">This helps with county specific information</span>
         </div>
-      <h4>Driving Record Text/SMS notifications to your Phone and Email</h4>
-      <span>We'll check your drivers license monthly for free; no credit card required.</span>
-    </div>
-    <section>
-      <div class="form-container">
-        <form id="submitEmailForm">
-          <fieldset>
-            <div class='form-row'>
-                <label for="emailAddressClient">Email Address<abbr title="required">*</abbr></label>
-                <input id="emailAddressInput" type="email" name="emailAddressClient" placeholder="mail@example.com" required>
-              </div>
-              <div class='form-row'>
-                  <label for="phoneNumberClient">Phone Number:<abbr title="required">*</abbr>
-                    <span class="form-pattern-desc">Please input in the following format 2134567890</span>
-                  </label>
-                  <input id="phoneNumberInput" type="tel" name="phoneNumberClient" placeholder="2134567890" minlength="10" size="10" required pattern="^\d{10}$">
-                </div>
-              <div class='form-row'>
-                <label for="countyClient">County <abbr title="required">*</abbr></label>
-                  <select id="countySelect" name="countyClient" multiple size="4">
-                      <option selected="selected" value="MIAMI-DADE">Miami-Dade</option>
-                      <option value="BROWARD">Broward</option>
-                      <option value="PALM-BEACH">Palm-Beach</option>
-                      <option value="ORANGE">Orange<option>
-                  </select>
-                </label>
-              </div>
-              <div class='form-row'>
-                <label for="dobClient">Date of Birth: <abbr title="required">*</abbr></label>
-                <input id="dobInput" type="date" name="dobClient" placeholder="1999-12-31" required pattern="^d{4}-\d{2}-\d{2}$/" autocomplete="off">
-            </div>
-              <div class='form-row'>
-                <label for="driversLicenseIdClient">Drivers License: <abbr title="required">*</abbr>
-                <span class="form-pattern-desc">Please input in the following format A111-111-11-111-1</span>
-                </label>
-                <input id="driversLicenseIdInput" type="text" name="driversLicenseIdClient" placeholder="A111-111-11-111-1"  minlength="17" size="17" required pattern='[A-Za-z]{1}\d{3}[\-]\d{3}[\-]\d{2}[\-]\d{3}[\-]\d$' autocomplete="off">
-              </div>
-              <div class='form-row'>
-                  <label for="agreementClient">I agree to having messages sent via both email and SMS. I also understand that rates may apply, and agree to the <a href="tou.html">Terms of Use</a><abbr title="required">*</abbr></label>
-                  <input id="agreementInput" type="checkbox" name="agreementClient" required autocomplete="off">
-              </div>
-              <input id="submitSubscribeButton" type="submit" value="Subscribe">
-              <pre id="subscriptionRequestStatus">
-              </pre>
-            </fieldset>
-          </form>
+        <select id="countySelect" name="countyClient" multiple size="4">
+          <option selected="selected" value="MIAMI-DADE">Miami-Dade</option>
+          <option value="BROWARD">Broward</option>
+          <option value="PALM-BEACH">Palm-Beach</option>
+          <option value="ORANGE">Orange
+          <option>
+        </select>
+        <div class="label-row">
+          <label for="driversLicenseIdClient">Drivers License<abbr title="required"></abbr>
+          </label>
+          <span class="form-pattern-desc">Just as you see it on your Driver License including dashes</span>
         </div>
-        </section>
-      <div class="footer">
-      <h4>This site and its content is not legal advice.</h4>
-      <span>*This is subject to change without notice.</span>
-      <p> Want to check your Drivers License status yourself for free? Go here: <a href="https://services.flhsmv.gov/dlcheck/">https://services.flhsmv.gov/dlcheck/</a></p>
-      <span id="supportFooter">support@drivefine.com || 2019-2020</span>
+        <input id="driversLicenseIdInput" type="text" name="driversLicenseIdClient" placeholder="A111-111-11-111-1"
+          minlength="17" size="17" required pattern='[A-Za-z]{1}\d{3}[\-]\d{3}[\-]\d{2}[\-]\d{3}[\-]\d$'
+          autocomplete="off">
+        <div class="label-row">
+          <label for="agreementClient" class="tos">
+            <input id="agreementInput" type="checkbox" name="agreementClient" required autocomplete="off">
+            <span class="label-body">I agree to the <a href="tou.html">Terms of Use</a> and that rates may apply.<abbr
+                title="required"></abbr></span>
+          </label>
+        </div>
+        <div class="submit-column">
+          <input id="submitSubscribeButton" type="submit" value="Subscribe">
+        </div>
+    </form>
+  </section>
+  <div class="footer">
+    <h4>This site and its content is not legal advice.</h4>
+    <p> Want to check your Drivers License status for free? Go here: <a
+        href="https://services.flhsmv.gov/dlcheck/">https://services.flhsmv.gov/dlcheck/</a></p>
+    <p>support@drivefine.com || 2019-2020</p>
   </div>
-  </div>
-
-  <script src="js/landing.js"></script>
-  <!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script async src="js/subscribe.js"></script>
 </body>
-
 </html>

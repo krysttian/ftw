@@ -14,13 +14,11 @@ export interface SubscriptionRequestType {
     emailAddressClient: string;
     phoneNumberClient: string;
     driversLicenseIdClient: string;
-    dobClient?: string;
     countyClient: string;
 }
 
 export interface DriverLicenseType {
     id: string;
-    dob: string;
     driversLicenseNumber: string;
     county: string;
     created_on: Date;
