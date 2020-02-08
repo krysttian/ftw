@@ -23,7 +23,8 @@ nav > ul{
 
 nav > ul > li > a{
     text-decoration: none;
-    margin-left: 10px;
+    margin: 10px;
+    /* margin-left: 10px; */
 }
 
 .logo{

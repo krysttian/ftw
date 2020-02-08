@@ -168,10 +168,10 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
   const {
     emailAddressClient,
     phoneNumberClient,
-    driversLicenseIdClient,
+    driverLicenseIdClient,
     countyClient
   } = subscriptionRequest;
-  if (typeof emailAddressClient !== 'string' || typeof phoneNumberClient !== "string" || typeof driversLicenseIdClient !== "string" || typeof countyClient !== "string") {
+  if (typeof emailAddressClient !== 'string' || typeof phoneNumberClient !== "string" || typeof driverLicenseIdClient !== "string" || typeof countyClient !== "string") {
     return {
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -188,12 +188,12 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
     const phoneNumber = validatePhoneNumber(phoneNumberClient);
     const {
       county,
-      driversLicenseNumber
-    } = validateDLSubmission(driversLicenseIdClient, countyClient);
+      driverLicenseNumber
+    } = validateDLSubmission(driverLicenseIdClient, countyClient);
     console.dir(`client validation ended`);
     // TODO upsert  (adjust for concurrency). INSPO https://gist.github.com/derhuerst/7b97221e9bc4e278d33576156e28e12d
     // TODO sanitaize return values from DB with try catch
-    const existingDriverLicense = await DriverLicense.query().where('driversLicenseNumber', driversLicenseNumber).first()
+    const existingDriverLicense = await DriverLicense.query().where('driverLicenseNumber', driverLicenseNumber).first()
 
     if (existingDriverLicense) {
       const existingSubscription = await Subscription.query().where({
@@ -223,7 +223,7 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
       });
 
       console.dir(`enrolled sending sms`);
-      await sendEnrollmentConfirmation(phoneNumberClient, driversLicenseIdClient);
+      await sendEnrollmentConfirmation(phoneNumberClient, driverLicenseIdClient);
 
       return {
         statusCode: 200,
@@ -239,7 +239,7 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
 
     // DL isn't found, need to create before moving forward
     const newDriverLicense = await DriverLicense.query().insert({
-      driversLicenseNumber,
+      driverLicenseNumber,
       county,
       disabled: false
     });
@@ -251,7 +251,7 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
       subscribedOn: new Date()
     });
 
-    await sendEnrollmentConfirmation(phoneNumberClient, driversLicenseIdClient);
+    await sendEnrollmentConfirmation(phoneNumberClient, driverLicenseIdClient);
 
     return {
       statusCode: 200,

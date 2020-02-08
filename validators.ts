@@ -42,16 +42,16 @@ export function validateEmail(emailAddress: string) {
    * @param {string} dlNumber - Florida driverLicense
    * @returns {Object| Error}
    */
-  export function validateDLSubmission(driversLicenseIdClient: string, countyClient: string) {
+  export function validateDLSubmission(driverLicenseIdClient: string, countyClient: string) {
     if(countyClient in Counties === false){
       throw new Error(`Country ${countyClient} not supported currently, currently supported counties are ${Object.keys(Counties)}`);
     }
     // validate dl
-    if(driversLicenseIdClient.length !== 13 && typeof driversLicenseIdClient === 'string') {
-      if(dlRegex(driversLicenseIdClient)){
+    if(driverLicenseIdClient.length !== 13 && typeof driverLicenseIdClient === 'string') {
+      if(dlRegex(driverLicenseIdClient)){
         return {
           // we need to ensure the DL is formatted correctly.
-              driversLicenseNumber : driversLicenseIdClient,
+              driversLicenseNumber : driverLicenseIdClient,
               county: countyClient
         }
       }

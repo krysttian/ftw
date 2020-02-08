@@ -52,9 +52,9 @@ Have you ever received a traffic ticket and immediately forgotten about it, cons
 * Enforce Rate limit
 * Allow multiple numbers with individual subscription types
 
-<!-- 
+
 [sms-example]: https://fcc-landing.s3.amazonaws.com/images/sms-example.png "Example SMS Message"
-[logo]: https://fcc-landing.s3.amazonaws.com/images/recordchecker.png "FTW Logo" -->
+[logo]: https://fcc-landing.s3.amazonaws.com/images/recordchecker.png "FTW Logo"
 
 ## Local Development
 

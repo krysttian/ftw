@@ -1,6 +1,6 @@
 
 // TODO namespace file
-const hostname = window.location.hostname;
+const domain = 'drivefine.com';
 const subscribePath = '/v1/subscription';
 const subscribeEndpoint = `https://api.${hostname}${subscribePath}`;
 const formLocator = '#submitEmailForm';
@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 async function submitEmail(event) {
     event.preventDefault();
+    console.dir(event);
     document.querySelector(subscribeButton).disabled = true;
     const formData = new FormData(document.querySelector(formLocator));
     // TODO add shimming so we can make this alot easier.
@@ -30,7 +31,7 @@ async function submitEmail(event) {
             body: JSON.stringify({emailAddressClient, countyClient, phoneNumberClient, driversLicenseIdClient: driversLicenseIdClient.toUpperCase()})
         }).then(response => handleSubscriptionStatus(response))
         .catch((error) => {
-
+            console.dir(error);
         })
         .finally(() => document.querySelector(subscribeButton).disabled = false);
     } else {
