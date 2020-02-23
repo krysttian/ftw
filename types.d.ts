@@ -2,7 +2,7 @@ export interface SubscriptionType {
     id: string;
     emailAddress: string;
     phoneNumber: string;
-    driversLicenseId: string;
+    driverLicenseId: string;
     createdOn: Date;
     subscribedOn: Date;
     unsubscribedOn?:  Date;
@@ -13,13 +13,13 @@ export interface SubscriptionType {
 export interface SubscriptionRequestType {
     emailAddressClient: string;
     phoneNumberClient: string;
-    driversLicenseIdClient: string;
+    driverLicenseIdClient: string;
     countyClient: string;
 }
 
 export interface DriverLicenseType {
     id: string;
-    driversLicenseNumber: string;
+    driverLicenseNumber: string;
     county: string;
     created_on: Date;
     modifiedOn?: Date;

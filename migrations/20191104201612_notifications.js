@@ -5,8 +5,8 @@ exports.up = async function(knex) {
         table.uuid('id').primary();
         table.uuid('subscription_id').unsigned();
         table.foreign('subscription_id').references('subscription.id');
-        table.uuid('drivers_license_report_id').unsigned();
-        table.foreign('drivers_license_report_id').references('drivers_license_report.id');
+        table.uuid('driver_license_report_id').unsigned();
+        table.foreign('driver_license_report_id').references('driver_license_report.id');
         table.timestamp('created_on').defaultTo(knex.fn.now());
         table.timestamp('sent_on').defaultTo(knex.fn.now());
         table.text('status');

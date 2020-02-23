@@ -72,17 +72,17 @@
     <form id="submitEmailForm">
       <div class="label-row">
         <label for="emailAddressClient">Email Address<abbr title="required"></abbr></label>
-        <span class="form-pattern-desc">For service updates</span>
+        <span class="form-pattern-desc">Email address to recive notifications</span>
         <span class="form-pattern-desc"></span>
       </div>
       <input id="emailAddressInput" type="email" name="emailAddressClient" placeholder="mail@example.com" required
         autocomplete="email">
       <div class="label-row">
-        <label for="phoneNumberClient">Phone Number<abbr title="required"></abbr></label>
+        <label for="phoneNumberClient">Phone Number</label>
         <span class="form-pattern-desc">SMS messages will be sent to this number</span>
       </div>
       <input id="phoneNumberInput" type="tel" name="phoneNumberClient" placeholder="2134567890" minlength="10" size="10"
-        required pattern="^\d{10}$" autocomplete="tel">
+        pattern="^\d{10}$" autocomplete="tel">
       <div class="label-row">
         <div class="label-row">
           <label for="countyClient">County<abbr title="required"></abbr></label>
@@ -96,11 +96,11 @@
           <option>
         </select>
         <div class="label-row">
-          <label for="driversLicenseIdClient">Drivers License<abbr title="required"></abbr>
+          <label for="driverLicenseIdClient">Drivers License<abbr title="required"></abbr>
           </label>
           <span class="form-pattern-desc">Just as you see it on your Driver License including dashes</span>
         </div>
-        <input id="driversLicenseIdInput" type="text" name="driversLicenseIdClient" placeholder="A111-111-11-111-1"
+        <input id="driverLicenseIdInput" type="text" name="driverLicenseIdClient" placeholder="A111-111-11-111-1"
           minlength="17" size="17" required pattern='[A-Za-z]{1}\d{3}[\-]\d{3}[\-]\d{2}[\-]\d{3}[\-]\d$'
           autocomplete="off">
         <div class="label-row">

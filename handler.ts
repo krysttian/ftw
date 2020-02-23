@@ -22,7 +22,7 @@ import {
 } from './models/subscription'
 import
 DriverLicense
-from './models/driversLicense';
+from './models/driverLicense';
 
 import {
   sendEnrollmentConfirmation
@@ -35,7 +35,7 @@ import {
 } from './subscription';
 import {
   DriverLicenseReport
-} from './models/driversLicenseReport';
+} from './models/driverLicenseReport';
 
 const knexConfig = require('./knexfile');
 
@@ -80,9 +80,9 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
   // extract just DL ids and transform to set for just unique values to reduce in unessecary addtional queries.
   for (const sub of validSubscriptions) {
     // most recent notification for that sub ID
-    const lastDlReport = await DriverLicenseReport.query().where('driversLicenseId', sub.driversLicenseId).orderBy('createdOn', 'desc').where('createdOn', '>=', thirtyDaysAgo).first();
+    const lastDlReport = await DriverLicenseReport.query().where('driverLicenseId', sub.driverLicenseId).orderBy('createdOn', 'desc').where('createdOn', '>=', thirtyDaysAgo).first();
     if (!lastDlReport) {
-      dlIdsThatNeedReport.push(sub.driversLicenseId);
+      dlIdsThatNeedReport.push(sub.driverLicenseId);
     }
   }
 
@@ -96,8 +96,6 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
       body: 'no subscriptions require report'
     };
   }
-
-  console.dir(dlIdsThatNeedReport);
 
   const uniqueDlIds = [...new Set(dlIdsThatNeedReport)];
 
@@ -113,9 +111,9 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
     try {
 
       //  build url
-      const dlRequestUrl = baseURL.concat(apiMap.dlNumberSearch).replace('{DL}', dl.driversLicenseNumber).concat(miamiDadeApiAuthKey);
+      const dlRequestUrl = baseURL.concat(apiMap.dlNumberSearch).replace('{DL}', dl.driverLicenseNumber).concat(miamiDadeApiAuthKey);
       const dlRecord = await DriverLicense.query()
-        .where('driversLicenseNumber', dl.driversLicenseNumber).first();
+        .where('driverLicenseNumber', dl.driverLicenseNumber).first();
 
       // make request, XML only has information
       const request = await axios.get(dlRequestUrl, {
@@ -130,7 +128,7 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
 
       console.dir(jsonResponse);
       await DriverLicenseReport.query().insert({
-        driversLicenseId: dlRecord.id,
+        driverLicenseId: dlRecord.id,
         report: response,
         reportJsonb: jsonResponse,
         county: 'MIAMI-DADE'
@@ -171,7 +169,7 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
     driverLicenseIdClient,
     countyClient
   } = subscriptionRequest;
-  if (typeof emailAddressClient !== 'string' || typeof phoneNumberClient !== "string" || typeof driverLicenseIdClient !== "string" || typeof countyClient !== "string") {
+  if (typeof emailAddressClient !== 'string' || typeof driverLicenseIdClient !== "string" || typeof countyClient !== "string") {
     return {
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -185,7 +183,8 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
   try {
     console.dir(`starting validation`);
     const emailAddress = validateEmail(emailAddressClient);
-    const phoneNumber = validatePhoneNumber(phoneNumberClient);
+    const phoneNumber =  validatePhoneNumber(phoneNumberClient);
+    
     const {
       county,
       driverLicenseNumber
@@ -199,7 +198,7 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
       const existingSubscription = await Subscription.query().where({
         emailAddress,
         phoneNumber,
-        driversLicenseId: existingDriverLicense.id
+        driverLicenseId: existingDriverLicense.id
       }).first();
 
       if (existingDriverLicense.disabled || existingSubscription) {
@@ -218,7 +217,7 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
       await Subscription.query().insert({
         emailAddress,
         phoneNumber,
-        driversLicenseId: existingDriverLicense.id,
+        driverLicenseId: existingDriverLicense.id,
         subscribedOn: new Date()
       });
 
@@ -247,7 +246,7 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
     await Subscription.query().insert({
       emailAddress,
       phoneNumber,
-      driversLicenseId: newDriverLicense.id,
+      driverLicenseId: newDriverLicense.id,
       subscribedOn: new Date()
     });
 

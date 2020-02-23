@@ -14,21 +14,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 async function submitEmail(event) {
     event.preventDefault();
-    console.dir(event);
     document.querySelector(subscribeButton).disabled = true;
     const formData = new FormData(document.querySelector(formLocator));
     // TODO add shimming so we can make this alot easier.
     const emailAddressClient = formData.get('emailAddressClient');
     const countyClient = formData.get('countyClient')
     const phoneNumberClient = formData.get('phoneNumberClient');
-    const driversLicenseIdClient = formData.get('driversLicenseIdClient');
-    if(emailAddressClient.length > 0 && typeof emailAddressClient === 'string' && 
-    typeof phoneNumberClient === 'string' && typeof driversLicenseIdClient === 'string') {
+    const driverLicenseIdClient = formData.get('driverLicenseIdClient');
+    if(emailAddressClient.length > 0 && typeof emailAddressClient === 'string' && typeof driverLicenseIdClient === 'string') {
         // handle exceptions
         await fetch(subscribeEndpoint, {
             method: 'POST',
             mode: 'cors',
-            body: JSON.stringify({emailAddressClient, countyClient, phoneNumberClient, driversLicenseIdClient: driversLicenseIdClient.toUpperCase()})
+            body: JSON.stringify({emailAddressClient, countyClient, phoneNumberClient, driverLicenseIdClient: driverLicenseIdClient.toUpperCase()})
         }).then(response => handleSubscriptionStatus(response))
         .catch((error) => {
             console.dir(error);

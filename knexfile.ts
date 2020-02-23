@@ -7,6 +7,7 @@ module.exports = {
       max: 2
     },
     migrations: {
-      tableName: 'knex_migrations'
+      tableName: 'knex_migrations',
+      schemaName: "ftwschema"
     }
 };

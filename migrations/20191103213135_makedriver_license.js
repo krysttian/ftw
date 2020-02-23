@@ -1,9 +1,9 @@
 'use strict';
 
 exports.up = async function(knex) {
-      await knex.schema.createTable('drivers_license', function (table) {
+      await knex.schema.createTable('driver_license', function (table) {
         table.uuid('id').primary();
-        table.text('drivers_license_number').notNullable().comment('DL Number');
+        table.text('driver_license_number').notNullable().comment('DL Number');
         table.enu('county', null, { useNative: true, existingType: true, enumName: 'county', schemaName: 'public' }).notNullable().comment('This is the list of supported counties');
         table.boolean('disabled').defaultTo(false).notNullable().comment('Use to indicate this DL should be ignored');
         table.timestamp('created_on').defaultTo(knex.fn.now());
@@ -15,7 +15,7 @@ exports.up = async function(knex) {
   
   exports.down = async function(knex) {
     await knex.schema
-    .dropTable('drivers_license')
+    .dropTable('driver_license')
 
     return Promise.resolve();
   };

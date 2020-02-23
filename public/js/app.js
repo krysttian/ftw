@@ -24,6 +24,7 @@ window.addEventListener("DOMContentLoaded",function(){
     }
 
     async function submitSubmission(event) {
+        event.preventDefault();
         const formData = new FormData(formSelectionSelector());
         const submissionBody = {
             data: JSON.stringify(formData),

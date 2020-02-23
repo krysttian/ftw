@@ -1,5 +1,5 @@
 import {isEmail, isMobilePhone} from 'validator';
-import { Counties } from './models/driversLicenseReport';
+import { Counties } from './models/driverLicenseReport';
 
 
 export function validateEmail(emailAddress: string) {
@@ -51,7 +51,7 @@ export function validateEmail(emailAddress: string) {
       if(dlRegex(driverLicenseIdClient)){
         return {
           // we need to ensure the DL is formatted correctly.
-              driversLicenseNumber : driverLicenseIdClient,
+              driverLicenseNumber : driverLicenseIdClient,
               county: countyClient
         }
       }

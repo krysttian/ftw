@@ -1,30 +1,30 @@
 const guid = require('objection-guid')();
 import { Model } from 'objection';
-// const DriverLicense = require('./driversLicense');
+// const DriverLicense = require('./driverLicense');
 
-import DriverLicense from './driversLicense';
+import DriverLicense from './driverLicense';
 // DL in florida beging with one letter followed by 12 digits the nubmer is split in 5 fields ****-***-**-***-*
 export class DriverLicenseReport extends guid(Model) {
 
     static get tableName() {
-        return 'driversLicenseReport';
+        return 'driverLicenseReport';
       }
 
     readonly id!: string;
     county: Counties;
-    driversLicenseId: string;
+    driverLicenseId: string;
     createdOn: Date;
     modifiedOn?: Date;
       //sthis relation mapping is likely pointless
     static get relationMappings() {
 
     return {
-      driversLicenseIdFk: {
+      driverLicenseIdFk: {
         relation: Model.BelongsToOneRelation,
         modelClass: DriverLicense,
         join: {
-          from: 'driversLicenseReport.driversLicenseId',
-          to: 'driversLicense.id'
+          from: 'driverLicenseReport.driverLicenseId',
+          to: 'driverLicense.id'
         }
       }
     }

@@ -1,10 +1,10 @@
 'use strict';
 
 exports.up = async function(knex) {
-      await knex.schema.createTable('drivers_license_report', function (table) {
+      await knex.schema.createTable('driver_license_report', function (table) {
         table.uuid('id').primary();
-        table.uuid('drivers_license_id').unsigned().notNullable();
-        table.foreign('drivers_license_id').references('drivers_license.id').onDelete('CASCADE');
+        table.uuid('driver_license_id').unsigned().notNullable();
+        table.foreign('driver_license_id').references('driver_license.id').onDelete('CASCADE');
         table.text('report').notNullable().comment('report stored in original format');
         table.jsonb('report_jsonb').notNullable().comment('report stored as a JSONB');
         table.enu('county', null, { useNative: true, existingType: true, enumName: 'county', schemaName: 'public' }).notNullable().comment('County the report is pulled from');
@@ -17,7 +17,7 @@ exports.up = async function(knex) {
   
   exports.down = async function(knex) {
     await knex.schema
-    .dropTable('drivers_license_report')
+    .dropTable('driver_license_report')
 
     return Promise.resolve();
   };
