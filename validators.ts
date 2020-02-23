@@ -32,7 +32,7 @@ export function validateEmail(emailAddress: string) {
       }
       return phoneNumber;
     } else {
-      throw new Error('Phone Number is not string type');
+      return false
     }
   }
   

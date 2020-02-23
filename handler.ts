@@ -195,11 +195,16 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
     const existingDriverLicense = await DriverLicense.query().where('driverLicenseNumber', driverLicenseNumber).first()
 
     if (existingDriverLicense) {
-      const existingSubscription = await Subscription.query().where({
+      const existingSubscription = phoneNumber === false ? 
+      await Subscription.query().where({
+        emailAddress,
+        driverLicenseId: existingDriverLicense.id
+      }).first() : 
+      await Subscription.query().where({
         emailAddress,
         phoneNumber,
         driverLicenseId: existingDriverLicense.id
-      }).first();
+      }).first()
 
       if (existingDriverLicense.disabled || existingSubscription) {
         return {
@@ -250,7 +255,7 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
       subscribedOn: new Date()
     });
 
-    await sendEnrollmentConfirmation(phoneNumberClient, driverLicenseIdClient);
+    await sendEnrollmentConfirmation(emailAddress ,phoneNumberClient, driverLicenseIdClient);
 
     return {
       statusCode: 200,
