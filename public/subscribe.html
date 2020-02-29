@@ -78,11 +78,11 @@
       <input id="emailAddressInput" type="email" name="emailAddressClient" placeholder="mail@example.com" required
         autocomplete="email">
       <div class="label-row">
-        <label for="phoneNumberClient">Phone Number</label>
+        <label for="phoneNumberClient">Phone Number<abbr title="required"></abbr></label>
         <span class="form-pattern-desc">SMS messages will be sent to this number</span>
       </div>
       <input id="phoneNumberInput" type="tel" name="phoneNumberClient" placeholder="2134567890" minlength="10" size="10"
-        pattern="^\d{10}$" autocomplete="tel">
+       required pattern="^\d{10}$" autocomplete="tel">
       <div class="label-row">
         <div class="label-row">
           <label for="countyClient">County<abbr title="required"></abbr></label>
@@ -92,8 +92,7 @@
           <option selected="selected" value="MIAMI-DADE">Miami-Dade</option>
           <option value="BROWARD">Broward</option>
           <option value="PALM-BEACH">Palm-Beach</option>
-          <option value="ORANGE">Orange
-          <option>
+          <option value="ORANGE">Orange</option>
         </select>
         <div class="label-row">
           <label for="driverLicenseIdClient">Drivers License<abbr title="required"></abbr>

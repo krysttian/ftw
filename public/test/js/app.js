@@ -2,15 +2,27 @@
 // TODO namespace file
 const domain = 'drivefine.com';
 const subscribePath = '/v1/subscription';
-const subscribeEndpoint = `https://api.${hostname}${subscribePath}`;
+const subscribeEndpoint = `https://api.${domain}${subscribePath}`;
 const formLocator = '#submitEmailForm';
 const subscribeButton = '#submitSubscribeButton';
 const subscriptionStatusLocator = '#subscriptionRequestStatus';
+const subscribeSplashButtonLocator = '#subscribeSplash';
+const subscribeMenuButtonLocator = '#subscribeMenu';
+const subscribeContentLocator = '#subscribeContent';
 
 document.addEventListener('DOMContentLoaded', (event) => {
+    
     // add ladda to button on submit, and remove on end of
     document.querySelector(formLocator).addEventListener('submit', submitEmail);
+    document.querySelector(subscribeSplashButtonLocator).addEventListener('click',handleScrollToSubmit );
+    document.querySelector(subscribeMenuButtonLocator).addEventListener('click', handleScrollToSubmit);
+
 });
+
+function handleScrollToSubmit (event) {
+    event.preventDefault();
+    document.querySelector(subscribeContentLocator).scrollIntoView()
+}
 
 async function submitEmail(event) {
     event.preventDefault();
