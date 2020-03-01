@@ -8,6 +8,6 @@ export default class DriverLicense extends guid(Model) {
     readonly id!: string;
     driverLicenseNumber: string;
     county: string;
-    created_on: Date;
+    createdOn: Date;
     modifiedOn?: Date;
 }

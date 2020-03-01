@@ -6,28 +6,36 @@ const subscribeEndpoint = `https://api.${domain}${subscribePath}`;
 const formLocator = '#submitEmailForm';
 const subscribeButton = '#submitSubscribeButton';
 const subscriptionStatusLocator = '#subscriptionRequestStatus';
-const subscribeSplashButton = '#subscribeSplash';
-const subscribeMenuButton = '#subscribeMenu';
+const linksToSubscribeLocator = '.linkSubscribe'
+const subscribeContentLocator = '#subscribeContent';
 
 document.addEventListener('DOMContentLoaded', (event) => {
     
     // add ladda to button on submit, and remove on end of
     document.querySelector(formLocator).addEventListener('submit', submitEmail);
-    document.querySelector(subscribeSplashButton).addEventListener('click', document.querySelector(formLocator).scrollIntoView());
-    document.querySelector(subscribeMenuButton).addEventListener('click', document.querySelector(formLocator).scrollIntoView());
+    document.querySelectorAll(linksToSubscribeLocator).forEach(elm => elm.addEventListener('click',handleScrollToSubmit ));
 
 });
+
+function handleScrollToSubmit (event) {
+    event.preventDefault();
+    document.querySelector(subscribeContentLocator).scrollIntoView()
+}
 
 async function submitEmail(event) {
     event.preventDefault();
     document.querySelector(subscribeButton).disabled = true;
+    const subscriptionStatusSpan = document.querySelector(subscriptionStatusLocator);
+        subscriptionStatusSpan.innerText = '';
+        subscriptionStatusSpan.classList.remove('warning', 'success');
+        subscriptionStatusSpan.innerText = 'Processing';
     const formData = new FormData(document.querySelector(formLocator));
     // TODO add shimming so we can make this alot easier.
     const emailAddressClient = formData.get('emailAddressClient');
     const countyClient = formData.get('countyClient')
     const phoneNumberClient = formData.get('phoneNumberClient');
     const driverLicenseIdClient = formData.get('driverLicenseIdClient');
-    if(emailAddressClient.length > 0 && typeof emailAddressClient === 'string' && typeof driverLicenseIdClient === 'string') {
+    if(emailAddressClient.length > 0 && typeof emailAddressClient === 'string' && typeof phoneNumberClient === 'string' && typeof driverLicenseIdClient === 'string') {
         // handle exceptions
         await fetch(subscribeEndpoint, {
             method: 'POST',
@@ -39,8 +47,9 @@ async function submitEmail(event) {
         })
         .finally(() => document.querySelector(subscribeButton).disabled = false);
     } else {
-        const subscriptionStatusPre = document.querySelector(subscriptionStatusLocator);
-        subscriptionStatusPre.innerText = 'Form Submission is incomplete, if you belive this is an error please email support@drivefine.com for support';
+        const subscriptionStatusSpan = document.querySelector(subscriptionStatusLocator);
+        subscriptionStatusSpan.innerText = 'Form Submission is incomplete, if you belive this is an error please email support@drivefine.com for support';
+        subscriptionStatusSpan.classList.remove('warning', 'success');
     }
 }
 
@@ -52,13 +61,19 @@ const subscriptionStatusMap = {
 }
 
 function handleSubscriptionStatus(response) {
-    const subscriptionStatusPre = document.querySelector(subscriptionStatusLocator);
+    const subscriptionStatusSpan = document.querySelector(subscriptionStatusLocator);
     if (!response || !subscriptionStatusMap[response.status]) {
-        subscriptionStatusPre.innerText = 'Uknown Error';
+        subscriptionStatusSpan.innerText = 'Uknown Error';
+        subscriptionStatusSpan.classList.add('warning');
     } else {
-        subscriptionStatusPre.innerText = subscriptionStatusMap[response.status];
+        subscriptionStatusSpan.innerText = `${subscriptionStatusMap[response.status]} ${response.description ? response.description: ''}`;
+        if(response.status !== 200) {
+            subscriptionStatusSpan.classList.add('warning');
+        }
     }
     if(response.status === 200) {
         document.querySelector(formLocator).reset();
+        subscriptionStatusSpan.classList.add('success');
     }
 }
+

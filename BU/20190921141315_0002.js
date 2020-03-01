@@ -4,14 +4,13 @@ exports.up = async function(knex) {
 
       await knex.schema.createTable('driver_license_report', function (table) {
         table.uuid('id').primary();
-        table.jsonb('report').comment('Report result');
+        table.jsonb('refrence').comment('Message refrence');
         // CREATE ENUM
-        table.enu('county', ['MIAMI-DADE', 'BROWARD', 'PALM-BEACH', 'ORANGE'], { useNative: true, enumName: 'contact_method' })
+        table.enu('contact_method', ['SMS', 'EMAIL', 'SMS+EMAIL', 'OTHER'], { useNative: true, enumName: 'contact_method' })
         table.uuid('driver_license_id').unsigned();
         table.foreign('driver_license_id').references('driver_license.id').onDelete('CASCADE');
         table.timestamp('created_on').defaultTo(knex.fn.now());
         table.timestamp('subscribed_on').defaultTo(knex.fn.now());
-        table.timestamp('unsubscribed_on');
         table.timestamp('modified_on');
       });
 

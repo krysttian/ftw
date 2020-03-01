@@ -4,13 +4,12 @@ service:
 custom:
   secrets: ${file(secrets.json)}
   webpack:
-    includeModules:
-      forceInclude:
-        - pg
-
+    includeModules: yes
+      # forceExclude:
+      #   - chrome-aws-lambda
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   memorySize: 256 # Overwrite the default memory size. Default is 1024
   timeout: 6 # optional, in seconds, default is 6
   environment:
@@ -36,10 +35,13 @@ plugins:
   - serverless-webpack
   - serverless-offline
 
+
 functions:
   migrate:
     handler: handler.migrate
   subscription:
+    timeout: 30
+    memorySize: 1024
     handler: handler.subscription
     events:
       - http:
@@ -47,4 +49,6 @@ functions:
           method: post
           cors: true
   rundlReports:
+    timeout: 60
+    memorySize: 512
     handler: handler.rundlReports

@@ -8,4 +8,18 @@ export class Notification extends guid(Model) {
         return 'notifications';
       }
 
+      readonly id!: string;
+      subscriptionId: string;
+      driverLicenseId: string;
+      notificationRequestResponse: string;
+      county: Counties;
+      contactMethod: string;
+      createdOn: Date;
+      sentOn: Date;
+      status: Date;
+      modifiedOn?: Date;
+}
+
+export enum Counties {
+  'MIAMI-DADE' = 'MIAMI-DADE', 'BROWARD' = 'BROWARD', 'PALM-BEACH' = 'PALM-BEACH', 'ORANGE' = 'ORANGE'
 }

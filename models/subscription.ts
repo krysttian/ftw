@@ -7,5 +7,18 @@ export class Subscription extends guid(Model) {
     static get tableName() {
         return 'subscription';
       }
+      readonly id!: string;
+      emailAddress: string;
+      phoneNumber: string;
+      driverLicenseId: string;
+      county: Counties;
+      createdOn: Date;
+      subscribedOn: Date;
+      unsubscribedOn?: Date;
+      modifiedOn?: Date;
 
+}
+
+export enum Counties {
+  'MIAMI-DADE' = 'MIAMI-DADE', 'BROWARD' = 'BROWARD', 'PALM-BEACH' = 'PALM-BEACH', 'ORANGE' = 'ORANGE'
 }

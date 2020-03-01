@@ -8,6 +8,6 @@ module.exports = {
     },
     migrations: {
       tableName: 'knex_migrations',
-      schemaName: "ftwschema"
+      // schemaName: "ftwschema"
     }
 };
