@@ -67,9 +67,6 @@ Databse enforces SSL via rds.force_ssl paramater
 t3 instance chosen to ensure data encryption at rest
 TLS for front end
 
-TODO
-application user created with  SCRAM-SHA-256 Encryption
-https://aws.amazon.com/blogs/database/managing-postgresql-users-and-roles/
-https://www.postgresql.org/docs/current/runtime-config-connection.html#GUC-PASSWORD-ENCRYPTION
-Move to service level accounts
-
+TODO:
+Translate to es/pt/ht
+Update application user password to use SCRAM-SHA-256 Encryption
