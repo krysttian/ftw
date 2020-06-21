@@ -69,8 +69,9 @@ aws account has 2FA
 Database exists in VPC within Private subnet
 Databse enforces SSL via rds.force_ssl paramater
 t3 instance chosen to ensure data encryption at rest
-TLS for front end
+TLS for front end and service connections
 
 TODO:
 Translate to es/pt/ht
 Update application user password to use SCRAM-SHA-256 Encryption
+Access-Control-Allow-Origin policy properly set.

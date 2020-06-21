@@ -23,6 +23,7 @@
     "@types/aws-lambda": "8.10.39",
     "@types/node": "10.17.13",
     "copy-webpack-plugin": "5.1.1",
+    "prettier": "2.0.5",
     "puppeteer": "^4.0.0",
     "serverless-offline": "6.0.0-alpha.56",
     "serverless-webpack": "5.2.0",

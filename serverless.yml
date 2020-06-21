@@ -41,6 +41,11 @@ plugins:
 functions:
   migrate:
     handler: handler.migrate
+    events:
+      - http:
+          path: migrate
+          method: get
+          cors: true
   subscription:
     timeout: 30
     memorySize: 1024
@@ -54,3 +59,8 @@ functions:
     timeout: 60
     memorySize: 512
     handler: handler.rundlReports
+    events:
+      - http:
+          path: runreports
+          method: get
+          cors: true

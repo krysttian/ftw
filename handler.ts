@@ -54,7 +54,6 @@ Model.knex(knex);
 
 export const migrate: APIGatewayProxyHandler = async (event, _context) => {
   await knex.migrate.latest(knexConfig);
-
   return {
     statusCode: 200,
     body: JSON.stringify({
@@ -77,7 +76,8 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
 
   // get all valid Subscriptions with no notification in the last 30 days 
   // what if no notification but drivers report is last 30? 
-  const validSubscriptions = await Subscription.query().where('unsubscribedOn', null);
+  const validSubscriptions = await Subscription.query().alias('sub').join('notification AS notifcation', 'sub.id', 'notification.subscription_id').where('sub.unsubscribedOn', null)
+    .andWhere('notification.createdOn', '>=', thirtyDaysAgo).orderBy('notification.createdOn', 'desc').first();
   // extract just DL ids and transform to set for just unique values to reduce in unessecary addtional queries.
 
 
@@ -92,7 +92,8 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
   */
   for (const sub of validSubscriptions) {
     // most recent notification for that sub ID gotta use MAX here instead
-    const lastNotification = await Notification.query().where('driverLicenseId', sub.driverLicenseId).orderBy('createdOn', 'desc').where('createdOn', '>=', thirtyDaysAgo).first();
+    // TODO consider some sort of group by driverlicense so we can run the report onces and easily sent it to relevant receipents so we don't rerun scrapes.
+
     if (!lastNotification) {
       try {
         const driverLicense = await DriverLicense.query().where('id', sub.driverLicenseId).first();
@@ -155,8 +156,10 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
   try {
     console.dir(`starting validation`);
     const emailAddress = validateEmail(emailAddressClient);
-    const {phoneNumber} = await lookupPhoneNumber(phoneNumberClient);
-    
+    const {
+      phoneNumber
+    } = await lookupPhoneNumber(phoneNumberClient);
+
     validatePhoneNumber(phoneNumber);
 
     const {
