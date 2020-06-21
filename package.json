@@ -1,19 +1,19 @@
 {
   "name": "ftw",
   "version": "1.0.0",
-  "description": "Drive Fine",
+  "description": "Drivefine",
   "main": "handler.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "IS_LOCAL=true SECRETS=secrets.dev.json sls offline"
   },
   "dependencies": {
     "axios": "0.19.0",
-    "chrome-aws-lambda": "2.0.2",
+    "chrome-aws-lambda": "^3.1.1",
     "knex": "0.20.10",
     "objection": "1.6.11",
     "objection-guid": "3.0.2",
     "pg": "7.17.0",
-    "puppeteer-core": "^2.1.1",
+    "puppeteer-core": "^4.0.0",
     "source-map-support": "0.5.16",
     "twilio": "3.39.1",
     "usdl-regex": "1.5.3",
@@ -23,7 +23,7 @@
     "@types/aws-lambda": "8.10.39",
     "@types/node": "10.17.13",
     "copy-webpack-plugin": "5.1.1",
-    "puppeteer": "2.0.x",
+    "puppeteer": "^4.0.0",
     "serverless-offline": "6.0.0-alpha.56",
     "serverless-webpack": "5.2.0",
     "ts-loader": "5.3.3",

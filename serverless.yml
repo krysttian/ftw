@@ -1,8 +1,10 @@
 service:
   name: drivefine
+  package:
+    excludeDevDependencies: true
 
 custom:
-  secrets: ${file(secrets.json)}
+  secrets: ${file(${env:SECRETS})}
   webpack:
     includeModules: yes
       # forceExclude:

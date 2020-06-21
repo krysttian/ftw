@@ -9,4 +9,5 @@ jspm_packages
 .webpack
 
 secrets.json
+secrets.**
 postgres-data

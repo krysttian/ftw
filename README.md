@@ -58,7 +58,11 @@ Have you ever received a traffic ticket and immediately forgotten about it, cons
 
 ## Local Development
 
-Make sure you have "Serverless Framework" installed, install all the packages, and configure a secrets.json file with the relevant values.
+Make sure you have "Serverless Framework" installed, install all the packages, and configure a secrets.dev.json file with the relevant values.
+run
+`docker-compose -f docker-compose.dev.yml up -d`
+`npm start`
+will bring up the service locally
 
 ## Improve Security
 aws account has 2FA
