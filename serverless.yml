@@ -53,4 +53,4 @@ functions:
     memorySize: 1024
     handler: handler.rundlReports
     events:
-      - schedule: cron(0 * * * *)
+      - schedule: cron(0 0 * * ? *)
