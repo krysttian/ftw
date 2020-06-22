@@ -3,6 +3,7 @@ import {
 } from 'aws-lambda';
 import 'source-map-support/register';
 import * as Knex from 'knex';
+import * as moment from 'moment';
 import {
   Model,
   knexSnakeCaseMappers
@@ -72,36 +73,29 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
   // log number of subs
   // log number of DL reports found vs making
   // TODO switch to momment
-  const thirtyDaysAgo = new Date(new Date().setDate(new Date().getDate() - 30));
+  
+  const thirtyDaysAgo = moment().utc().subtract(1, 'months').format();
 
   // get all valid Subscriptions with no notification in the last 30 days 
-  // what if no notification but drivers report is last 30? 
-  const validSubscriptions = await Subscription.query().alias('sub').join('notification AS notifcation', 'sub.id', 'notification.subscription_id').where('sub.unsubscribedOn', null)
-    .andWhere('notification.createdOn', '>=', thirtyDaysAgo).orderBy('notification.createdOn', 'desc').first();
-  // extract just DL ids and transform to set for just unique values to reduce in unessecary addtional queries.
-
-
-  // REWRITE THIS BIT 
-  /*
-      TODO
-      find all subscriptions that don't have a dlreport sent to them in the last 30 days. (MAX ID is prob going to be best, but make sure to grab the row seperatly or make sure postgresql doesn't have this issue)
-      per subscription, send the DL message ** this will mean redundant DL checks, but thats not a real problem right now.
-      SO we track the report being run for that subscription, and track the message
-      so send message, if message is sent, add to report, if not report and return with error.
-      ALSO update report model/DB changes alls
-  */
-  for (const sub of validSubscriptions) {
-    // most recent notification for that sub ID gotta use MAX here instead
+  // what if no notification but drivers report is last 30?
+    // what if no notification but drivers report is last 30? 
+  const subscription = await Subscription.query()
+    .alias('sub')
+    .leftJoin('notifications AS notifications', 'notifications.subscriptionId', 'sub.id')
+    .where(
+      (qb)=> qb.where('notifications.createdOn', '<=', thirtyDaysAgo)
+      .orWhere('notifications.createdOn', null))
+    .first();
     // TODO consider some sort of group by driverlicense so we can run the report onces and easily sent it to relevant receipents so we don't rerun scrapes.
 
-    if (!lastNotification) {
+    if (typeof subscription !== 'undefined') {
       try {
-        const driverLicense = await DriverLicense.query().where('id', sub.driverLicenseId).first();
+        const driverLicense = await DriverLicense.query().where('id', subscription.driverLicenseId).first();
         const {
           reportInnerText
         } = await browardCountyCDLCheck(driverLicense.driverLicenseNumber);
 
-        const message = await sendReportSMS(sub.phoneNumber, driverLicense.driverLicenseNumber, reportInnerText, 'Broward County Clerk Of Courts');
+        const message = await sendReportSMS(subscription.phoneNumber, driverLicense.driverLicenseNumber, reportInnerText, 'Broward County Clerk Of Courts');
 
         const messageResult = message[0];
 
@@ -109,29 +103,52 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
 
         // we need to make this much more bomb proof (make more columns optional) incase something happens.
         await Notification.query().insert({
-          driverLicenseId: sub.driverLicenseId,
+          driverLicenseId: subscription.driverLicenseId,
           contactMethod: 'SMS',
-          subscriptionId: sub.id,
+          subscriptionId: subscription.id,
           notificationRequestResponse: messageResult,
-          county: sub.county,
+          county: subscription.county,
           status: messageResult.status
         });
+
+        return {
+          statusCode: 200,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true,
+          },
+          // include number and some subscription ids?
+          body: JSON.stringify({
+            message: 'Notification sent'
+          }, null, 2),
+        };
       } catch (error) {
         // alert on these errors but don't halt thread cause we'll have to keep going
-        console.error(`unable to process subId ${sub.id}`);
+        console.error(`unable to process subId ${subscription.id}`);
         console.error(error);
+        return {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true,
+          },
+          statusCode: 422,
+          body: JSON.stringify({
+            description: error.message
+          }),
+        };
       }
     }
-  }
-  return {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
-    },
-    // include number and some subscription ids?
-    body: 'Reports run',
-  };
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
+      // include number and some subscription ids?
+      body: JSON.stringify({
+        message: 'No notifications to send'
+      }, null, 2),
+    };
 }
 
 export const subscription: APIGatewayProxyHandler = async (event, _context) => {
