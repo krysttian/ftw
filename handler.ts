@@ -125,6 +125,15 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
       } catch (error) {
         // alert on these errors but don't halt thread cause we'll have to keep going
         console.error(`unable to process subId ${subscription.id}`);
+        // lets update the notification table so we can be sure we don't spam anyways
+        await Notification.query().insert({
+          driverLicenseId: subscription.driverLicenseId,
+          contactMethod: 'SMS',
+          subscriptionId: subscription.id,
+          notificationRequestResponse: null,
+          county: subscription.county,
+          status: 'failed'
+        });
         console.error(error);
         return {
           headers: {
