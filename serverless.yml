@@ -7,8 +7,6 @@ custom:
   secrets: ${file(${env:SECRETS})}
   webpack:
     includeModules: yes
-      # forceExclude:
-      #   - chrome-aws-lambda
 provider:
   name: aws
   runtime: nodejs12.x
@@ -42,7 +40,7 @@ functions:
   migrate:
     handler: handler.migrate
   subscription:
-    timeout: 30
+    timeout: 60
     memorySize: 1024
     handler: handler.subscription
     events:
@@ -52,5 +50,7 @@ functions:
           cors: true
   rundlReports:
     timeout: 60
-    memorySize: 512
+    memorySize: 1024
     handler: handler.rundlReports
+    events:
+      - schedule: cron(0 * * * *)

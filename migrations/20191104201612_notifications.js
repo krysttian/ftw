@@ -1,6 +1,7 @@
 'use strict';
 
 exports.up = async function(knex) {
+  try{
       await knex.schema.createTable('notifications', function (table) {
         // TWILIO SUGGESTED ROW?
         table.uuid('id').primary();
@@ -18,6 +19,10 @@ exports.up = async function(knex) {
       });
 
       return Promise.resolve();
+    } catch(error) {
+      console.dir(error);
+      return Promise.reject();
+      }
   };
   
   exports.down = async function(knex) {
