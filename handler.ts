@@ -73,91 +73,98 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
   // log number of subs
   // log number of DL reports found vs making
   // TODO switch to momment
-  
+
   const thirtyDaysAgo = moment().utc().subtract(1, 'months').format();
 
   // get all valid Subscriptions with no notification in the last 30 days 
   // what if no notification but drivers report is last 30?
-    // what if no notification but drivers report is last 30? 
+  // what if no notification but drivers report is last 30? 
   const subscription = await Subscription.query()
     .alias('sub')
-    .leftJoin('notifications AS notifications', 'notifications.subscriptionId', 'sub.id')
-    .where(
-      (qb)=> qb.where('notifications.createdOn', '<=', thirtyDaysAgo)
-      .orWhere('notifications.createdOn', null))
+    .leftJoin((qb) =>
+      qb.select('subscription_id')
+      .max('created_on as createdOn')
+      .from('notifications')
+      .groupBy('subscription_id')
+      .as('notifications'),
+      (qb) => qb.on('notifications.subscription_id', '=', 'sub.id'))
+    .whereNull('sub.unsubscribedOn')
+    .andWhere((qb) => qb.where('notifications.createdOn', '<=', thirtyDaysAgo).orWhere('notifications.createdOn', null))
     .first();
-    // TODO consider some sort of group by driverlicense so we can run the report onces and easily sent it to relevant receipents so we don't rerun scrapes.
 
-    if (typeof subscription !== 'undefined') {
-      try {
-        const driverLicense = await DriverLicense.query().where('id', subscription.driverLicenseId).first();
-        const {
-          reportInnerText
-        } = await browardCountyCDLCheck(driverLicense.driverLicenseNumber);
 
-        const message = await sendReportSMS(subscription.phoneNumber, driverLicense.driverLicenseNumber, reportInnerText, 'Broward County Clerk Of Courts');
 
-        const messageResult = message[0];
+  // TODO consider some sort of group by driverlicense so we can run the report onces and easily sent it to relevant receipents so we don't rerun scrapes.
+  if (typeof subscription !== 'undefined') {
+    try {
+      const driverLicense = await DriverLicense.query().where('id', subscription.driverLicenseId).first();
+      const {
+        reportInnerText
+      } = await browardCountyCDLCheck(driverLicense.driverLicenseNumber);
 
-        delete messageResult.body;
+      const message = await sendReportSMS(subscription.phoneNumber, driverLicense.driverLicenseNumber, reportInnerText, 'Broward County Clerk Of Courts');
 
-        // we need to make this much more bomb proof (make more columns optional) incase something happens.
-        await Notification.query().insert({
-          driverLicenseId: subscription.driverLicenseId,
-          contactMethod: 'SMS',
-          subscriptionId: subscription.id,
-          notificationRequestResponse: messageResult,
-          county: subscription.county,
-          status: messageResult.status
-        });
+      const messageResult = message[0];
 
-        return {
-          statusCode: 200,
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-          },
-          // include number and some subscription ids?
-          body: JSON.stringify({
-            message: 'Notification sent'
-          }, null, 2),
-        };
-      } catch (error) {
-        // alert on these errors but don't halt thread cause we'll have to keep going
-        console.error(`unable to process subId ${subscription.id}`);
-        // lets update the notification table so we can be sure we don't spam anyways
-        await Notification.query().insert({
-          driverLicenseId: subscription.driverLicenseId,
-          contactMethod: 'SMS',
-          subscriptionId: subscription.id,
-          notificationRequestResponse: null,
-          county: subscription.county,
-          status: 'failed'
-        });
-        console.error(error);
-        return {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-          },
-          statusCode: 422,
-          body: JSON.stringify({
-            description: error.message
-          }),
-        };
-      }
+      delete messageResult.body;
+
+      // we need to make this much more bomb proof (make more columns optional) incase something happens.
+      await Notification.query().insert({
+        driverLicenseId: subscription.driverLicenseId,
+        contactMethod: 'SMS',
+        subscriptionId: subscription.id,
+        notificationRequestResponse: messageResult,
+        county: subscription.county,
+        status: messageResult.status
+      });
+
+      return {
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
+        // include number and some subscription ids?
+        body: JSON.stringify({
+          message: 'Notification sent'
+        }, null, 2),
+      };
+    } catch (error) {
+      // alert on these errors but don't halt thread cause we'll have to keep going
+      console.error(`unable to process subId ${subscription.id}`);
+      // lets update the notification table so we can be sure we don't spam anyways
+      await Notification.query().insert({
+        driverLicenseId: subscription.driverLicenseId,
+        contactMethod: 'SMS',
+        subscriptionId: subscription.id,
+        notificationRequestResponse: null,
+        county: subscription.county,
+        status: 'failed'
+      });
+      console.error(error);
+      return {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
+        statusCode: 422,
+        body: JSON.stringify({
+          description: error.message
+        }),
+      };
     }
-    return {
-      statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
-      // include number and some subscription ids?
-      body: JSON.stringify({
-        message: 'No notifications to send'
-      }, null, 2),
-    };
+  }
+  return {
+    statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+    },
+    // include number and some subscription ids?
+    body: JSON.stringify({
+      message: 'No notifications to send'
+    }, null, 2),
+  };
 }
 
 export const subscription: APIGatewayProxyHandler = async (event, _context) => {
