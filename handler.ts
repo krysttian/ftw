@@ -65,13 +65,8 @@ export const migrate: APIGatewayProxyHandler = async (event, _context) => {
  * @returns {string} - success or error
  */
 export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
-  // log starting
-  // log number of subs
-  // log number of DL reports found vs making
-  // TODO switch to momment
-
+  console.dir('starting');
   const thirtyDaysAgo = moment().utc().subtract(1, 'months').format();
-
   // get all valid Subscriptions with no notification in the last 30 days 
   // what if no notification but drivers report is last 30?
   // what if no notification but drivers report is last 30? 
@@ -90,7 +85,7 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
 
 
 
-  // TODO consider some sort of group by driverlicense so we can run the report onces and easily sent it to relevant receipents so we don't rerun scrapes.
+  // TODO consider some sort of group by driverlicense so we can run the report onces and easily sent it to relevant recipients so we don't rerun scrapes.
   if (typeof subscription !== 'undefined') {
     try {
       const driverLicense = await DriverLicense.query().where('id', subscription.driverLicenseId).first();
@@ -99,9 +94,7 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
       } = await browardCountyCDLCheck(driverLicense.driverLicenseNumber);
 
       const message = await sendReportSMS(subscription.phoneNumber, driverLicense.driverLicenseNumber, reportInnerText, 'Broward County Clerk Of Courts');
-
       const messageResult = message[0];
-
       delete messageResult.body;
 
       // we need to make this much more bomb proof (make more columns optional) incase something happens.
@@ -156,7 +149,6 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': true,
     },
-    // include number and some subscription ids?
     body: JSON.stringify({
       message: 'No notifications to send'
     }, null, 2),
