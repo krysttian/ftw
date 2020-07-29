@@ -14,8 +14,6 @@ export const formatDLReportMiamiDade = ((cases: Array<MiamiDadeDLReportCaseRespo
         `
     });
 
-    
-
     const string = `
         You have an update for the following DL number(s) ${dlNumbers.length > 1 ? dlNumbers.join(', ') : dlNumbers}
         ${DLReportBody.join('').trim()}

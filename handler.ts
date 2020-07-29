@@ -32,19 +32,15 @@ import {
   lookupPhoneNumber
 } from './lib/functions/twilio';
 
-
-// TYPES
 import {
   SubscriptionRequest
-} from './subscription';
+} from './models/SubscriptionRequest';
 
 import {
   Notification
 } from './models/notification';
 
 const knexConfig = require('./knexfile');
-
-
 const knex = Knex({
   ...knexConfig,
   ...knexSnakeCaseMappers()
@@ -132,16 +128,16 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
     } catch (error) {
       // alert on these errors but don't halt thread cause we'll have to keep going
       console.error(`unable to process subId ${subscription.id}`);
+      console.error(error);
       // lets update the notification table so we can be sure we don't spam anyways
       await Notification.query().insert({
         driverLicenseId: subscription.driverLicenseId,
         contactMethod: 'SMS',
         subscriptionId: subscription.id,
-        notificationRequestResponse: null,
+        notificationRequestResponse: {reason: "ERROR"},
         county: subscription.county,
         status: 'failed'
       });
-      console.error(error);
       return {
         headers: {
           'Access-Control-Allow-Origin': '*',
@@ -230,11 +226,9 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
         disabled: false
       });
     }
-
-
     // DL isn't found, need to create before moving forward
 
-    const subscription = await Subscription.query().insert({
+    await Subscription.query().insert({
       emailAddress,
       phoneNumber,
       driverLicenseId: driverLicense.id,
@@ -245,31 +239,6 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
     console.dir(`enrolled sending sms`);
     await sendEnrollmentConfirmation(phoneNumberClient, driverLicenseIdClient);
 
-    try {
-
-      const {
-        reportInnerText
-      } = await browardCountyCDLCheck(driverLicense.driverLicenseNumber);
-
-      const message = await sendReportSMS(phoneNumber, driverLicense.driverLicenseNumber, reportInnerText, 'Broward County Clerk Of Courts');
-      const messageResult = message[0];
-      delete messageResult.body;
-
-      // TODO handle messge response if error.
-
-      await Notification.query().insert({
-        driverLicenseId: subscription.driverLicenseId,
-        contactMethod: 'SMS',
-        subscriptionId: subscription.id,
-        notificationRequestResponse: messageResult,
-        county: subscription.county,
-        status: messageResult.status
-      });
-
-    } catch (error) {
-      // log errors and alert better
-      console.dir(error);
-    }
     return {
       statusCode: 200,
       headers: {
