@@ -41,7 +41,7 @@ functions:
     handler: handler.migrate
   subscription:
     timeout: 60
-    memorySize: 1024
+    memorySize: 512
     handler: handler.subscription
     events:
       - http:
@@ -50,7 +50,7 @@ functions:
           cors: true
   rundlReports:
     timeout: 60
-    memorySize: 1024
+    memorySize: 2048
     handler: handler.rundlReports
     events:
-      - schedule: cron(0 0 * * ? *)
+      - schedule: cron(0/30 * * * ? *)
