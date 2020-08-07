@@ -14,7 +14,8 @@ export function sendReportSMS(phoneNumber: string, dlNumber: string, report: str
   return sendSms(phoneNumber, message)
 }
 
-const generateTwilioClient = () => twilio(process.env['TWIIO_ACCOUNT_SID'], process.env['TWILIO_AUTH_KEY']);
+
+const generateTwilioClient = () => twilio(process.env['TWILIO_AUTH_SID'], process.env['TWILIO_AUTH_SECRET'], { accountSid: process.env['TWILIO_ACCOUNT_SID'] });
 
 function sendSms(phoneNumber: string, message: string) {
   console.log('sending sms');

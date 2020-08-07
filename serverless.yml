@@ -16,8 +16,9 @@ provider:
     NODE_ENV: ${self:custom.secrets.NODE_ENV}
     DATABASE_URL: ${self:custom.secrets.DATABASE_URL}
     MIAMI_DADE_COUNTY_AUTH_KEY: ${self:custom.secrets.MIAMI_DADE_COUNTY_AUTH_KEY}
-    TWILIO_CLIENT_ID: ${self:custom.secrets.TWILIO_CLIENT_ID}
-    TWILIO_AUTH_KEY: ${self:custom.secrets.TWILIO_AUTH_KEY}
+    TWILIO_ACCOUNT_SID: ${self:custom.secrets.TWILIO_ACCOUNT_SID}
+    TWILIO_AUTH_SID: ${self:custom.secrets.TWILIO_AUTH_SID}
+    TWILIO_AUTH_SECRET: ${self:custom.secrets.TWILIO_AUTH_SECRET}
 
   vpc:
     securityGroupIds:
