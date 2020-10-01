@@ -3,7 +3,7 @@ import {
 } from 'validator';
 import {
   Counties
-} from './models/driverLicenseReport';
+} from './types';
 
 
 export function validateEmail(emailAddress: string) {
@@ -34,6 +34,21 @@ export function validatePhoneNumber(phoneNumbeClient: string) {
   }
 }
 
+// /**
+//  * Validates FL DL Number Submitted
+//  * @constructor
+//  * @param {string} dlNumber - Florida driverLicense
+//  * @param {Date} dateOfBirth - users date of birth
+//  * @returns {Object| Error}
+//  */
+// export function validateDLDateOfBirth(driverLicenseId: string, dateOfBirth: Date) {
+//   if (dateOfBirth) {
+//     throw new Error(`Country ${countyClient} not supported currently, currently supported counties are ${Object.keys(Counties)}`);
+//   } else {
+//     throw new Error(`issue with date of birth`);
+//   }
+// }
+
 /**
  * Validates FL DL Number Submitted
  * @constructor
@@ -42,7 +57,7 @@ export function validatePhoneNumber(phoneNumbeClient: string) {
  */
 export function validateDLSubmission(driverLicenseIdClient: string, countyClient: string) {
   if (countyClient in Counties === false) {
-    throw new Error(`Country ${countyClient} not supported currently, currently supported counties are ${Object.keys(Counties)}`);
+    throw new Error(`County ${countyClient} not supported currently, currently supported counties are ${Object.keys(Counties)}`);
   }
   // validate dl
   if (typeof driverLicenseIdClient === 'string' && driverLicenseIdClient.length > 1 && dlRegex(driverLicenseIdClient)) {

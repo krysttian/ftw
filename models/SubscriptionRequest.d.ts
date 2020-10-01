@@ -3,4 +3,5 @@ export interface SubscriptionRequest {
     phoneNumberClient: string;
     driverLicenseIdClient: string;
     countyClient: string;
+    dateOfBirthClient?: string;
 }

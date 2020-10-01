@@ -2,6 +2,7 @@ const chromium = require('chrome-aws-lambda');
 
 export const browardCountyCDLCheck = async (dlNumber : string): Promise<any>  => {
     // DL number requried to not include dashes
+    console.log('broward county check');
     const dlNumberFormated = dlNumber.replace(/-|\s/g,'');
     const browardDlUrl = `https://www.browardclerk.org/Clerkwebsite/BCCOC2/Pubsearch/dl_stat_verif.aspx?DRVNUM=${dlNumberFormated}&iAction=1&go=no&shopperID=&sGo=yes`;
     let browser = null;
@@ -14,7 +15,7 @@ try {
       headless: chromium.headless,
     });
 
-    let page = await browser.newPage();
+    const page = await browser.newPage();
     await page.goto(browardDlUrl);
     const reportTableSelector = '.pmain_entry > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(3) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1)';
     await page.waitForSelector(reportTableSelector);
@@ -28,8 +29,6 @@ try {
         sendReport : true,
         reporInnerHTML,
         reportInnerText,
-        // screenshot
-
     };
 
 } catch (error) {

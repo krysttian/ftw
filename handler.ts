@@ -8,11 +8,16 @@ import {
   Model,
   knexSnakeCaseMappers
 } from 'objection';
-
+import {
+  Counties
+} from './types';
 import {
   browardCountyCDLCheck
 } from './lib/functions/browardCountyCheck';
 
+import {
+  miamiDadeCountyCDLCheck
+} from './lib/functions/miamiDadeCountyCheck';
 //Helpers
 import {
   validateEmail,
@@ -83,28 +88,39 @@ export const rundlReports: APIGatewayProxyHandler = async (_, _context) => {
     .andWhere((qb) => qb.where('notifications.createdOn', '<=', thirtyDaysAgo).orWhere('notifications.createdOn', null))
     .first();
 
-
-
   // TODO consider some sort of group by driverlicense so we can run the report onces and easily sent it to relevant recipients so we don't rerun scrapes.
   if (typeof subscription !== 'undefined') {
     try {
       const driverLicense = await DriverLicense.query().where('id', subscription.driverLicenseId).first();
-      const {
-        reportInnerText
-      } = await browardCountyCDLCheck(driverLicense.driverLicenseNumber);
-
-      const message = await sendReportSMS(subscription.phoneNumber, driverLicense.driverLicenseNumber, reportInnerText, 'Broward County Clerk Of Courts');
-      const messageResult = message[0];
-      delete messageResult.body;
-
-      // we need to make this much more bomb proof (make more columns optional) incase something happens.
-      await Notification.query().insert({
+      const reporterCounty = driverLicense.county === 'MIAMI-DADE' && driverLicense.dateOfBirth ? Counties['MIAMI-DADE'] : Counties['BROWARD'] ;
+      const notification = await Notification.query().insertAndFetch({
         driverLicenseId: subscription.driverLicenseId,
         contactMethod: 'SMS',
         subscriptionId: subscription.id,
+        county: reporterCounty,
+        status: 'PENDING'
+      });
+      let reportText;
+      let source;
+      
+      if (reporterCounty === Counties['MIAMI-DADE']) {
+        source = 'Miami-Dade County Clerk Of Courts';
+        const report  = await miamiDadeCountyCDLCheck(driverLicense.driverLicenseNumber, driverLicense.dateOfBirth);
+        reportText = report;
+      } else {
+        source = 'Broward County Clerk Of Courts';
+        const { reportInnerText } = await browardCountyCDLCheck(driverLicense.driverLicenseNumber);
+        reportText = reportInnerText;
+      }
+
+      const message = await sendReportSMS(subscription.phoneNumber, driverLicense.driverLicenseNumber, reportText, source);
+      const messageResult = message[0];
+      delete messageResult.body;
+      await Notification.query()
+      .findById(notification.id)
+      .patch({
         notificationRequestResponse: messageResult,
-        county: subscription.county,
-        status: messageResult.status
+        status: 'SENT'
       });
 
       return {
@@ -161,16 +177,16 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
     emailAddressClient,
     phoneNumberClient,
     driverLicenseIdClient,
-    countyClient
+    countyClient,
+    dateOfBirthClient
   } = subscriptionRequest;
-  if (typeof emailAddressClient !== 'string' || typeof driverLicenseIdClient !== "string" || typeof countyClient !== "string" || typeof phoneNumberClient !== "string") {
+  if (typeof emailAddressClient !== 'string' || typeof driverLicenseIdClient !== "string" || typeof countyClient !== "string" || typeof phoneNumberClient !== "string" || (countyClient === "MIAMI-DADE" && typeof dateOfBirthClient !== "string")) {
     return {
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true,
       },
       statusCode: 400,
-      // move to http error handling
       body: 'BAD REQUEST'
     };
   }
@@ -180,9 +196,10 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
     const {
       phoneNumber
     } = await lookupPhoneNumber(phoneNumberClient);
-
+    
     validatePhoneNumber(phoneNumber);
 
+    const dateOfBirth = dateOfBirthClient ? moment.utc(dateOfBirthClient) : null;
     const {
       county,
       driverLicenseNumber
@@ -215,6 +232,7 @@ export const subscription: APIGatewayProxyHandler = async (event, _context) => {
       driverLicense = await DriverLicense.query().insert({
         driverLicenseNumber,
         county,
+        dateOfBirth,
         disabled: false
       });
     }

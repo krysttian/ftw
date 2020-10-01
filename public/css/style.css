@@ -325,6 +325,9 @@ button-xlarge{
 
 
 @media only screen and (max-width: 48em) {
+    .pure-menu-horizontal {
+        white-space: unset;
+    }
     .splash-container {
         background-image: url('../images/truckright.png'), url('../images/moto.png');
         background-size: 8em, 6.7em;
