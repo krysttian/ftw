@@ -16,6 +16,9 @@ provider:
     NODE_ENV: ${self:custom.secrets.NODE_ENV}
     DATABASE_URL: ${self:custom.secrets.DATABASE_URL}
     MIAMI_DADE_COUNTY_AUTH_KEY: ${self:custom.secrets.MIAMI_DADE_COUNTY_AUTH_KEY}
+    MIAMI_DADE_USERNAME: ${self:custom.secrets.MIAMI_DADE_USERNAME}
+    MIAMI_DADE_PASSWORD: ${self:custom.secrets.MIAMI_DADE_PASSWORD}
+    BROWARD_COUNTY_AUTH_KEY: ${self:custom.secrets.BROWARD_COUNTY_AUTH_KEY}
     TWILIO_ACCOUNT_SID: ${self:custom.secrets.TWILIO_ACCOUNT_SID}
     TWILIO_AUTH_SID: ${self:custom.secrets.TWILIO_AUTH_SID}
     TWILIO_AUTH_SECRET: ${self:custom.secrets.TWILIO_AUTH_SECRET}
@@ -41,8 +44,8 @@ functions:
   migrate:
     handler: handler.migrate
   subscription:
-    timeout: 60
-    memorySize: 512
+    timeout: 30
+    memorySize: 256
     handler: handler.subscription
     events:
       - http:
@@ -51,7 +54,7 @@ functions:
           cors: true
   rundlReports:
     timeout: 60
-    memorySize: 2048
+    memorySize: 1024
     handler: handler.rundlReports
     events:
       - schedule: cron(0/30 * * * ? *)

@@ -1,6 +1,9 @@
 const guid = require('objection-guid')();
 import { Model } from 'objection';
 
+import {
+  Counties
+} from '../types';
 // DL in florida beging with one letter followed by 12 digits the nubmer is split in 5 fields ****-***-**-***-*
 export class Subscription extends guid(Model) {
 
@@ -17,8 +20,4 @@ export class Subscription extends guid(Model) {
       unsubscribedOn?: Date;
       modifiedOn?: Date;
 
-}
-
-export enum Counties {
-  'MIAMI-DADE' = 'MIAMI-DADE', 'BROWARD' = 'BROWARD', 'PALM-BEACH' = 'PALM-BEACH', 'ORANGE' = 'ORANGE'
 }

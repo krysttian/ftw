@@ -21,4 +21,15 @@ export const formatDLReportMiamiDade = ((cases: Array<MiamiDadeDLReportCaseRespo
         return string;
 });
 
+// /**
+//  * function to return the dob from the driverlicense
+//  * @param dlNumber 
+//  */
+// export const parseDriverLicense = (dlNumber: string) => {
+//     const split = dlNumber.split('-');
+//     // format
+//     // http://www.highprogrammer.com/alan/numbers/dl_us_shared.html
+//     // A123-456-78-910-0
+//     return split;
+// }
 

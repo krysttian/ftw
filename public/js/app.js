@@ -8,13 +8,14 @@ const subscribeButton = '#submitSubscribeButton';
 const subscriptionStatusLocator = '#subscriptionRequestStatus';
 const linksToSubscribeLocator = '.linkSubscribe'
 const subscribeContentLocator = '#subscribeContent';
+const countySelectorLocator = '#countySelect';
+const dateOfBirthSelectorLocator = '#dateOfBirthInput';
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    
-    // add ladda to button on submit, and remove on end of
     document.querySelector(formLocator).addEventListener('submit', submitEmail);
     document.querySelectorAll(linksToSubscribeLocator).forEach(elm => elm.addEventListener('click',handleScrollToSubmit ));
-
+    document.querySelector(countySelectorLocator).addEventListener('input', handleCountySelect);
+    handleCountySelect(event);
 });
 
 function handleScrollToSubmit (event) {
@@ -22,25 +23,45 @@ function handleScrollToSubmit (event) {
     document.querySelector(subscribeContentLocator).scrollIntoView()
 }
 
+function countySelected () {
+    return document.querySelector(countySelectorLocator).value;
+}
+
+function handleCountySelect (event) {
+    event.preventDefault()
+    const countySelect = countySelected();
+    const dateOfBirthInput = document.querySelector(dateOfBirthSelectorLocator);
+    if (countySelect === 'MIAMI-DADE') {
+        dateOfBirthInput.style.display = '';
+        dateOfBirthInput.required = true;
+        return;
+    }
+    dateOfBirthInput.required = false;
+    dateOfBirthInput.style.display = 'none';
+    return;
+}
+
+
 async function submitEmail(event) {
     event.preventDefault();
     document.querySelector(subscribeButton).disabled = true;
     const subscriptionStatusSpan = document.querySelector(subscriptionStatusLocator);
-        subscriptionStatusSpan.innerText = '';
-        subscriptionStatusSpan.classList.remove('warning', 'success');
-        subscriptionStatusSpan.innerText = 'Processing';
+    subscriptionStatusSpan.innerText = '';
+    subscriptionStatusSpan.classList.remove('warning', 'success');
+    subscriptionStatusSpan.innerText = 'Processing';
     const formData = new FormData(document.querySelector(formLocator));
     // TODO add shimming so we can make this alot easier.
     const emailAddressClient = formData.get('emailAddressClient');
     const countyClient = formData.get('countyClient')
     const phoneNumberClient = formData.get('phoneNumberClient');
     const driverLicenseIdClient = formData.get('driverLicenseIdClient');
+    const dateOfBirthClient = countySelected() === 'MIAMI-DADE' ? formData.get('dateOfBirthClient') : null;
     if(emailAddressClient.length > 0 && typeof emailAddressClient === 'string' && typeof phoneNumberClient === 'string' && typeof driverLicenseIdClient === 'string') {
         // handle exceptions
         await fetch(subscribeEndpoint, {
             method: 'POST',
             mode: 'cors',
-            body: JSON.stringify({emailAddressClient, countyClient, phoneNumberClient, driverLicenseIdClient: driverLicenseIdClient.toUpperCase()})
+            body: JSON.stringify({emailAddressClient, countyClient, phoneNumberClient, driverLicenseIdClient: driverLicenseIdClient.toUpperCase(), dateOfBirthClient})
         }).then(response => handleSubscriptionStatus(response))
         .catch((error) => {
             console.dir(error);

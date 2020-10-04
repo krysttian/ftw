@@ -128,12 +128,84 @@
                             minlength="10" size="10" required pattern="\(?\d{3}\)?-? *\d{3}-? *-?\d{4}" autocomplete="tel">
                                 <label for="countyClient">County<abbr title="required"></abbr></label>
                                 <span class="form-pattern-desc">This helps with county specific information</span>
-                            <select id="countySelect" name="countyClient" multiple size="4">
-                                <option selected="selected" value="MIAMI-DADE">Miami-Dade</option>
-                                <option value="BROWARD">Broward</option>
-                                <option value="PALM-BEACH">Palm-Beach</option>
-                                <option value="ORANGE">Orange</option>
+                            <select id="countySelect" name="countyClient">
+                                <option value="ALACHUA">ALACHUA</option>
+                                <option value="BAKER">BAKER</option>
+                                <option value="BAY">BAY</option>
+                                <option value="BRADFORD">BRADFORD</option>
+                                <option value="BREVARD">BREVARD</option>
+                                <option value="BROWARD">BROWARD</option>
+                                <option value="CALHOUN">CALHOUN</option>
+                                <option value="CHARLOTTE">CHARLOTTE</option>
+                                <option value="CITRUS">CITRUS</option>
+                                <option value="CLAY">CLAY</option>
+                                <option value="COLLIER">COLLIER</option>
+                                <option value="COLUMBIA">COLUMBIA</option>
+                                <option value="DE SOTO">DE SOTO</option>
+                                <option value="DIXIE">DIXIE</option>
+                                <option value="DUVAL">DUVAL</option>
+                                <option value="ESCAMBIA">ESCAMBIA</option>
+                                <option value="FLAGLER">FLAGLER</option>
+                                <option value="FRANKLIN">FRANKLIN</option>
+                                <option value="GADSDEN">GADSDEN</option>
+                                <option value="GILCHRIST">GILCHRIST</option>
+                                <option value="GLADES">GLADES</option>
+                                <option value="GULF">GULF</option>
+                                <option value="HAMILTON">HAMILTON</option>
+                                <option value="HARDEE">HARDEE</option>
+                                <option value="HENDRY">HENDRY</option>
+                                <option value="HERNANDO">HERNANDO</option>
+                                <option value="HIGHLANDS">HIGHLANDS</option>
+                                <option value="HILLSBOROUGH">HILLSBOROUGH</option>
+                                <option value="HOLMES">HOLMES</option>
+                                <option value="INDIAN RIVER">INDIAN RIVER</option>
+                                <option value="JACKSON">JACKSON</option>
+                                <option value="JEFFERSON">JEFFERSON</option>
+                                <option value="LAFAYETTE">LAFAYETTE</option>
+                                <option value="LAKE">LAKE</option>
+                                <option value="LEE">LEE</option>
+                                <option value="LEON">LEON</option>
+                                <option value="LEVY">LEVY</option>
+                                <option value="LIBERTY">LIBERTY</option>
+                                <option value="MADISON">MADISON</option>
+                                <option value="MANATEE">MANATEE</option>
+                                <option value="MARION">MARION</option>
+                                <option value="MARTIN">MARTIN</option>
+                                <option selected="selected" value="MIAMI-DADE">MIAMI-DADE</option>
+                                <option value="MONROE">MONROE</option>
+                                <option value="NASSAU">NASSAU</option>
+                                <option value="OKALOOSA">OKALOOSA</option>
+                                <option value="OKEECHOBEE">OKEECHOBEE</option>
+                                <option value="ORANGE">ORANGE</option>
+                                <option value="OSCEOLA">OSCEOLA</option>
+                                <option value="PALM BEACH">PALM BEACH</option>
+                                <option value="PASCO">PASCO</option>
+                                <option value="PINELLAS">PINELLAS</option>
+                                <option value="POLK">POLK</option>
+                                <option value="PUTNAM">PUTNAM</option>
+                                <option value="ST. JOHNS">ST. JOHNS</option>
+                                <option value="ST. LUCIE">ST. LUCIE</option>
+                                <option value="SANTA ROSA">SANTA ROSA</option>
+                                <option value="SARASOTA">SARASOTA</option>
+                                <option value="SEMINOLE">SEMINOLE</option>
+                                <option value="SUMTER">SUMTER</option>
+                                <option value="SUWANNEE">SUWANNEE</option>
+                                <option value="TAYLOR">TAYLOR</option>
+                                <option value="UNION">UNION</option>
+                                <option value="VOLUSIA">VOLUSIA</option>
+                                <option value="WAKULLA">WAKULLA</option>
+                                <option value="WALTON">WALTON</option>
+                                <option value="WASHINGTON">WASHINGTON</option>
                             </select>
+                            <label for="dateOfBirthClient">Date of Birth<abbr title="required"></abbr>
+                            </label>
+                            <span class="form-pattern-desc">Miami-Dade Clerk of Courts requires Date of Birth in order to run the report.</span>
+                        <input id="dateOfBirthInput" type="text" name="dateOfBirthClient" pattern="^\d{2}[-/ ]\d{2}[-/ ]\d{4}$" placeholder="MM/DD/YYYY" value="01/01/1989">
+                        <label for="agreementClient" class="pure-checkbox">
+                                <input id="agreementInput" type="checkbox" name="agreementClient" required
+                                    autocomplete="off" required>
+                                    I agree to the <a href="tou.html">Terms of Use</a> and agree to have Drivefine request driver license records in order to carry out our functions. SMS messaging and Data rates may apply. 
+                            </label>
                                 <label for="driverLicenseIdClient">Driver License<abbr title="required"></abbr>
                                 </label>
                                 <span class="form-pattern-desc">Just as you see it on your Driver License including
