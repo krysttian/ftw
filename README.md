@@ -1,7 +1,7 @@
 ![alt text][logo]
 
 # Drive Fine
-Subscribe to notifications of driver license status changes, court dates reminder and updates via email, SMS, and automated phone calls.
+Subscribe to notifications of Florida driver license status changes via SMS.
 
 ## How to Contribute
 
@@ -9,6 +9,43 @@ Subscribe to notifications of driver license status changes, court dates reminde
 2. Configure your local [development environment](##-Local-Development) (if applicable)
 3. Submit a pull request referencing the ticket. Please include in the pull request what work has been done, and what its attempting to resolve (the purpose), [additional information](https://github.blog/2015-01-21-how-to-write-the-perfect-pull-request/)
 4. Pull request and deployment once approved.
+
+## Technical Overview
+Front End - Is written in plain HTML, CSS, and Javascript. Its intended to be as simple and compatible as possible, with an emphasis on [accessibility](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/HTML)
+
+Back End - The serverless framework drives this project. Most of the backend is written in typescript, but you can contribute any runtime/language you want so long as AWS Lambda + Serverless support it, [here is an example](https://www.serverless.com/blog/building-mutliple-runtimes).
+
+## Local Development
+You will need a few things to get started:  
+* Install docker for your [relevant environment](https://docs.docker.com/desktop/)
+* Install [Node/NPM](https://nodejs.org/en/download/)
+* Install [serverless](https://www.serverless.com/framework/docs/getting-started/)
+1. Run `npm install` once you have cloned the repository
+2. create a `secrets.dev.json` file in the root directory of this project with values like this:  
+`{
+    "DATABASE_URL": "postgresql://postgres@127.0.0.1:54320/drivefine",
+    "NODE_ENV": "development",
+    "MIAMI_DADE_USERNAME": "MIAMI_DADE_USERNAME",  "MIAMI_DADE_PASSWORD": MIAMI_DADE_PASSWORD
+    "MIAMI_DADE_COUNTY_AUTH_KEY": "MIAMI_DADE_COUNTY_AUTH_KEY",
+    "BROWARD_COUNTY_AUTH_KEY": "BROWARD_COUNTY_AUTH_KEY",
+    "TWILIO_CLIENT_ID": "TWILIO_CLIENT_ID",
+    "TWILIO_AUTH_KEY": "TWILIO_AUTH_KEY",
+    "SECURITY_GROUP1_ID": "SECURITY_GROUP1_ID",
+    "SUBNET1_ID": "SUBNET1_ID",
+    "SUBNET2_ID": "SUBNET2_ID"
+  }`
+3. Run `docker-compose -f docker-compose.dev.yml up -d`  
+4. Run migrations `SECRETS=secrets.dev.json serverless invoke local --function migrate`  
+5. Run `npm start`  
+
+to see if your stack is up and working try making the following curl request (or import into postman:  
+`curl -X POST \
+  http://localhost:3000/dev/subscription \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: 162a92b9-cb59-462b-be57-111523a1f41f' \
+  -H 'cache-control: no-cache' \
+  -d '{"emailAddressClient":"me11@mail.com", "countyClient":"MIAMI-DADE", "phoneNumberClient":"7869999999", "driverLicenseIdClient":"A111-111-11-111-0"}'`
+
 
 ## Counties and APis
 * Miami-Dade County - has API for driver license
@@ -57,42 +94,6 @@ Subscribe to notifications of driver license status changes, court dates reminde
 
 [sms-example]: https://fcc-landing.s3.amazonaws.com/images/sms-example.png "Example SMS Message"
 [logo]: https://fcc-landing.s3.amazonaws.com/images/recordchecker.png "FTW Logo"
-
-## Technical Overview
-Front End - Is written in plain HTML, CSS, and Javascript. Its intended to be as simple and compatible as possible, with an emphasis on [accessibility](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/HTML)
-
-Back End - The serverless framework drives this project. Most of the backend is written in typescript, but you can contribute any runtime/language you want so long as AWS Lambda + Serverless support it, [here is an example](https://www.serverless.com/blog/building-mutliple-runtimes).
-
-## Local Development
-You will need a few things to get started:  
-* Install docker for your [relevant environment](https://docs.docker.com/desktop/)
-* Install [Node/NPM](https://nodejs.org/en/download/)
-* Install [serverless](https://www.serverless.com/framework/docs/getting-started/)
-1. Run `npm install` once you have cloned the repository
-2. create a `secrets.dev.json` file in the root directory of this project with values like this:  
-`{
-    "DATABASE_URL": "postgresql://postgres@127.0.0.1:54320/drivefine",
-    "NODE_ENV": "development",
-    "MIAMI_DADE_USERNAME": "MIAMI_DADE_USERNAME","MIAMI_DADE_PASSWORD": MIAMI_DADE_PASSWORD
-    "MIAMI_DADE_COUNTY_AUTH_KEY": "MIAMI_DADE_COUNTY_AUTH_KEY",
-    "BROWARD_COUNTY_AUTH_KEY": "BROWARD_COUNTY_AUTH_KEY",
-    "TWILIO_CLIENT_ID": "TWILIO_CLIENT_ID",
-    "TWILIO_AUTH_KEY": "TWILIO_AUTH_KEY",
-    "SECURITY_GROUP1_ID": "SECURITY_GROUP1_ID",
-    "SUBNET1_ID": "SUBNET1_ID",
-    "SUBNET2_ID": "SUBNET2_ID"
-  }`
-3. Run `docker-compose -f docker-compose.dev.yml up -d`  
-4. Run migrations `SECRETS=secrets.dev.json serverless invoke local --function migrate`  
-5. Run `npm start`  
-
-to see if your stack is up and working try making the following curl request (or import into postman:  
-`curl -X POST \
-  http://localhost:3000/dev/subscription \
-  -H 'Content-Type: application/json' \
-  -H 'Postman-Token: 162a92b9-cb59-462b-be57-111523a1f41f' \
-  -H 'cache-control: no-cache' \
-  -d '{"emailAddressClient":"me11@mail.com", "countyClient":"MIAMI-DADE", "phoneNumberClient":"7869999999", "driverLicenseIdClient":"A111-111-11-111-0"}'`
 
 ## Improve Security
 DONE:
