@@ -10,7 +10,7 @@
     "axios": "0.19.0",
     "chrome-aws-lambda": "^3.1.1",
     "knex": "0.20.10",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "objection": "1.6.11",
     "objection-guid": "3.0.2",
     "pg": "7.17.0",
