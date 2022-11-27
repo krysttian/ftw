@@ -11,7 +11,7 @@
     "chrome-aws-lambda": "^3.1.1",
     "knex": "0.20.10",
     "moment": "^2.27.0",
-    "objection": "1.6.11",
+    "objection": "2.2.16",
     "objection-guid": "3.0.2",
     "pg": "7.17.0",
     "puppeteer-core": "^4.0.0",
